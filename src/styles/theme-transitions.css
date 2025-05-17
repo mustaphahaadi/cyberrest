@@ -1,0 +1,109 @@
+/* Add smooth transitions for theme changes */
+:root {
+  --theme-transition-duration: 0.3s;
+}
+
+/* Elements that should transition when theme changes */
+body,
+.card,
+.button,
+.input,
+.navbar,
+.sidebar,
+.footer,
+.dropdown-menu,
+.alert,
+.badge,
+.tooltip,
+.modal,
+.table,
+.progress,
+.avatar,
+.switch,
+.checkbox,
+.radio,
+.select,
+.textarea,
+.tabs,
+.accordion,
+.toast,
+.popover,
+.dialog,
+.menu,
+.breadcrumb,
+.pagination,
+.skeleton,
+.calendar,
+.slider,
+.toggle,
+.drawer,
+.notification,
+.timeline,
+.stepper,
+.tree-view,
+.file-upload,
+.rating,
+.tag,
+.chip,
+.divider,
+.spinner,
+.loader,
+.progress-bar,
+.progress-circle,
+.progress-ring,
+.progress-step,
+.progress-track,
+.progress-value,
+.progress-indicator,
+.progress-label,
+.progress-description,
+.progress-title,
+.progress-subtitle,
+.progress-text,
+.progress-percentage,
+.progress-fraction,
+.progress-ratio,
+.progress-count,
+.progress-total,
+.progress-current,
+.progress-max,
+.progress-min,
+.progress-value-label,
+.progress-value-text,
+.progress-value-percentage,
+.progress-value-fraction,
+.progress-value-ratio,
+.progress-value-count,
+.progress-value-total,
+.progress-value-current,
+.progress-value-max,
+.progress-value-min {
+  transition: background-color var(--theme-transition-duration) ease, color var(--theme-transition-duration) ease,
+    border-color var(--theme-transition-duration) ease, box-shadow var(--theme-transition-duration) ease;
+}
+
+/* Disable transitions when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+/* Class to manually disable transitions */
+.reduce-motion * {
+  transition: none !important;
+}
+
+/* Enhanced focus indicators for accessibility */
+.enhanced-focus :focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Dyslexia-friendly font */
+.dyslexia-font {
+  font-family: "OpenDyslexic", sans-serif;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+  line-height: 1.5;
+}

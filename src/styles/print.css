@@ -1,0 +1,116 @@
+@media print {
+  /* Base styles for printing */
+  body {
+    background-color: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Hide non-essential elements */
+  header nav,
+  footer,
+  .sidebar,
+  .theme-toggle,
+  .no-print,
+  button:not(.print-include) {
+    display: none !important;
+  }
+
+  /* Ensure content is visible */
+  .card,
+  .content,
+  .dashboard-content {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  /* Improve table readability */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    page-break-inside: avoid;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+    text-align: left;
+  }
+
+  /* Ensure links are useful in printed format */
+  a {
+    color: #0000ee !important;
+    text-decoration: underline !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+  }
+
+  /* Improve headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  h1 {
+    font-size: 24pt;
+  }
+
+  h2 {
+    font-size: 20pt;
+  }
+
+  h3 {
+    font-size: 16pt;
+  }
+
+  /* Add page breaks where needed */
+  .page-break {
+    page-break-before: always;
+  }
+
+  /* Ensure charts and graphs are visible */
+  canvas,
+  svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Security report specific styling */
+  .security-report {
+    page-break-before: always;
+  }
+
+  .security-report .summary {
+    border: 2px solid #000 !important;
+    padding: 10px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .security-report .threat-level-high {
+    color: #d32f2f !important;
+    font-weight: bold !important;
+  }
+
+  .security-report .threat-level-medium {
+    color: #f57c00 !important;
+    font-weight: bold !important;
+  }
+
+  .security-report .threat-level-low {
+    color: #388e3c !important;
+    font-weight: bold !important;
+  }
+}
