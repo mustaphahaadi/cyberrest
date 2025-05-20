@@ -1,22 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Check, HelpCircle, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import { Check, HelpCircle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Badge from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const PricingPage = () => {
-  const [billingCycle, setBillingCycle] = useState("yearly")
-  const [showEnterprise, setShowEnterprise] = useState(false)
+  const [billingCycle, setBillingCycle] = useState("yearly");
+  const [showEnterprise, setShowEnterprise] = useState(false);
 
   const toggleBillingCycle = () => {
-    setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly")
-  }
+    setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly");
+  };
 
   const pricingPlans = [
     {
@@ -32,7 +44,11 @@ const PricingPage = () => {
         "Email Support",
         "1 User License",
       ],
-      limitations: ["No API Access", "Limited Reporting", "No Compliance Tools"],
+      limitations: [
+        "No API Access",
+        "Limited Reporting",
+        "No Compliance Tools",
+      ],
       cta: "Start Free Trial",
       popular: false,
     },
@@ -58,7 +74,8 @@ const PricingPage = () => {
     },
     {
       name: "Business",
-      description: "Comprehensive security solution for established organizations",
+      description:
+        "Comprehensive security solution for established organizations",
       monthlyPrice: 199,
       yearlyPrice: 1990,
       features: [
@@ -77,7 +94,7 @@ const PricingPage = () => {
       cta: "Start Free Trial",
       popular: false,
     },
-  ]
+  ];
 
   const enterprisePlan = {
     name: "Enterprise",
@@ -95,15 +112,15 @@ const PricingPage = () => {
       "Custom SLA",
     ],
     cta: "Contact Sales",
-  }
+  };
 
   const calculateSavings = (monthly, yearly) => {
-    const monthlyCost = monthly * 12
-    const yearlyCost = yearly
-    const savings = monthlyCost - yearlyCost
-    const percentage = Math.round((savings / monthlyCost) * 100)
-    return percentage
-  }
+    const monthlyCost = monthly * 12;
+    const yearlyCost = yearly;
+    const savings = monthlyCost - yearlyCost;
+    const percentage = Math.round((savings / monthlyCost) * 100);
+    return percentage;
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -117,20 +134,35 @@ const PricingPage = () => {
           <div className="flex items-center space-x-2">
             <Label
               htmlFor="billing-toggle"
-              className={billingCycle === "monthly" ? "font-medium" : "text-muted-foreground"}
+              className={
+                billingCycle === "monthly"
+                  ? "font-medium"
+                  : "text-muted-foreground"
+              }
             >
               Monthly
             </Label>
-            <Switch id="billing-toggle" checked={billingCycle === "yearly"} onCheckedChange={toggleBillingCycle} />
+            <Switch
+              id="billing-toggle"
+              checked={billingCycle === "yearly"}
+              onCheckedChange={toggleBillingCycle}
+            />
             <div className="flex items-center">
               <Label
                 htmlFor="billing-toggle"
-                className={billingCycle === "yearly" ? "font-medium" : "text-muted-foreground"}
+                className={
+                  billingCycle === "yearly"
+                    ? "font-medium"
+                    : "text-muted-foreground"
+                }
               >
                 Yearly
               </Label>
               {billingCycle === "yearly" && (
-                <Badge variant="outline" className="ml-2 bg-green-50 text-green-700 border-green-200">
+                <Badge
+                  variant="outline"
+                  className="ml-2 bg-green-50 text-green-700 border-green-200"
+                >
                   Save 20%
                 </Badge>
               )}
@@ -143,7 +175,9 @@ const PricingPage = () => {
         {pricingPlans.map((plan, index) => (
           <Card
             key={plan.name}
-            className={`flex flex-col ${plan.popular ? "border-primary shadow-lg relative" : ""} dark:border-gray-700`}
+            className={`flex flex-col ${
+              plan.popular ? "border-primary shadow-lg relative" : ""
+            } dark:border-gray-700`}
           >
             {plan.popular && (
               <div className="bg-primary text-primary-foreground text-center py-1 text-sm font-medium">
@@ -155,12 +189,18 @@ const PricingPage = () => {
               <CardDescription>{plan.description}</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">
-                  ${billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice}
+                  $
+                  {billingCycle === "monthly"
+                    ? plan.monthlyPrice
+                    : plan.yearlyPrice}
                 </span>
-                <span className="text-muted-foreground ml-2">/{billingCycle === "monthly" ? "month" : "year"}</span>
+                <span className="text-muted-foreground ml-2">
+                  /{billingCycle === "monthly" ? "month" : "year"}
+                </span>
                 {billingCycle === "yearly" && (
                   <div className="text-sm text-green-600 mt-1">
-                    Save {calculateSavings(plan.monthlyPrice, plan.yearlyPrice)}% with annual billing
+                    Save {calculateSavings(plan.monthlyPrice, plan.yearlyPrice)}
+                    % with annual billing
                   </div>
                 )}
               </div>
@@ -178,11 +218,15 @@ const PricingPage = () => {
                 </ul>
                 {plan.limitations.length > 0 && (
                   <div className="mt-4">
-                    <h4 className="text-sm font-medium text-muted-foreground">Limitations:</h4>
+                    <h4 className="text-sm font-medium text-muted-foreground">
+                      Limitations:
+                    </h4>
                     <ul className="space-y-2 mt-2">
                       {plan.limitations.map((limitation, limitIndex) => (
                         <li key={limitIndex} className="flex items-start">
-                          <span className="text-sm text-muted-foreground">{limitation}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {limitation}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -206,7 +250,11 @@ const PricingPage = () => {
           className="mx-auto flex items-center"
         >
           {showEnterprise ? "Hide Enterprise Plan" : "Show Enterprise Plan"}
-          <ArrowRight className={`ml-2 h-4 w-4 transition-transform ${showEnterprise ? "rotate-90" : ""}`} />
+          <ArrowRight
+            className={`ml-2 h-4 w-4 transition-transform ${
+              showEnterprise ? "rotate-90" : ""
+            }`}
+          />
         </Button>
       </div>
 
@@ -215,9 +263,13 @@ const PricingPage = () => {
           <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-blue-200 dark:border-blue-800">
             <CardHeader>
               <CardTitle className="text-2xl">{enterprisePlan.name}</CardTitle>
-              <CardDescription className="text-base">{enterprisePlan.description}</CardDescription>
+              <CardDescription className="text-base">
+                {enterprisePlan.description}
+              </CardDescription>
               <div className="mt-4">
-                <span className="text-xl font-medium">Custom pricing based on your needs</span>
+                <span className="text-xl font-medium">
+                  Custom pricing based on your needs
+                </span>
               </div>
             </CardHeader>
             <CardContent>
@@ -245,7 +297,9 @@ const PricingPage = () => {
       <div className="bg-muted rounded-lg p-8 mb-12 dark:bg-gray-800/50">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold mb-2">Compare Plans</h2>
-          <p className="text-muted-foreground">See which plan is right for your organization</p>
+          <p className="text-muted-foreground">
+            See which plan is right for your organization
+          </p>
         </div>
 
         <Tabs defaultValue="features" className="w-full">
@@ -260,10 +314,18 @@ const PricingPage = () => {
                 <thead>
                   <tr className="border-b">
                     <th className="text-left py-4 px-4 font-medium">Feature</th>
-                    <th className="text-center py-4 px-4 font-medium">Starter</th>
-                    <th className="text-center py-4 px-4 font-medium">Professional</th>
-                    <th className="text-center py-4 px-4 font-medium">Business</th>
-                    <th className="text-center py-4 px-4 font-medium">Enterprise</th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Starter
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Professional
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Business
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Enterprise
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -277,7 +339,10 @@ const PricingPage = () => {
                               <HelpCircle className="h-4 w-4 text-muted-foreground ml-1" />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p className="w-60">Number of user accounts that can access the platform</p>
+                              <p className="w-60">
+                                Number of user accounts that can access the
+                                platform
+                              </p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -298,7 +363,10 @@ const PricingPage = () => {
                               <HelpCircle className="h-4 w-4 text-muted-foreground ml-1" />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p className="w-60">Monitor the dark web for leaked credentials and data</p>
+                              <p className="w-60">
+                                Monitor the dark web for leaked credentials and
+                                data
+                              </p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -319,7 +387,10 @@ const PricingPage = () => {
                               <HelpCircle className="h-4 w-4 text-muted-foreground ml-1" />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p className="w-60">Programmatic access to platform features and data</p>
+                              <p className="w-60">
+                                Programmatic access to platform features and
+                                data
+                              </p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -340,7 +411,10 @@ const PricingPage = () => {
                               <HelpCircle className="h-4 w-4 text-muted-foreground ml-1" />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p className="w-60">Tools to assess compliance with regulatory frameworks</p>
+                              <p className="w-60">
+                                Tools to assess compliance with regulatory
+                                frameworks
+                              </p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -361,7 +435,9 @@ const PricingPage = () => {
                               <HelpCircle className="h-4 w-4 text-muted-foreground ml-1" />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p className="w-60">Customize the platform with your brand</p>
+                              <p className="w-60">
+                                Customize the platform with your brand
+                              </p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -383,11 +459,21 @@ const PricingPage = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-4 px-4 font-medium">Security Feature</th>
-                    <th className="text-center py-4 px-4 font-medium">Starter</th>
-                    <th className="text-center py-4 px-4 font-medium">Professional</th>
-                    <th className="text-center py-4 px-4 font-medium">Business</th>
-                    <th className="text-center py-4 px-4 font-medium">Enterprise</th>
+                    <th className="text-left py-4 px-4 font-medium">
+                      Security Feature
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Starter
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Professional
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Business
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Enterprise
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -476,11 +562,21 @@ const PricingPage = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-4 px-4 font-medium">Support Feature</th>
-                    <th className="text-center py-4 px-4 font-medium">Starter</th>
-                    <th className="text-center py-4 px-4 font-medium">Professional</th>
-                    <th className="text-center py-4 px-4 font-medium">Business</th>
-                    <th className="text-center py-4 px-4 font-medium">Enterprise</th>
+                    <th className="text-left py-4 px-4 font-medium">
+                      Support Feature
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Starter
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Professional
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Business
+                    </th>
+                    <th className="text-center py-4 px-4 font-medium">
+                      Enterprise
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -558,14 +654,22 @@ const PricingPage = () => {
       <div className="bg-primary text-primary-foreground rounded-lg p-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="text-2xl font-bold mb-2">Ready to secure your organization?</h2>
-            <p className="mb-0">Start your 14-day free trial. No credit card required.</p>
+            <h2 className="text-2xl font-bold mb-2">
+              Ready to secure your organization?
+            </h2>
+            <p className="mb-0">
+              Start your 14-day free trial. No credit card required.
+            </p>
           </div>
           <div className="flex flex-wrap gap-4">
             <Button variant="secondary" size="lg">
               Compare Plans
             </Button>
-            <Button variant="default" size="lg" className="bg-white text-primary hover:bg-gray-100">
+            <Button
+              variant="default"
+              size="lg"
+              className="bg-white text-primary hover:bg-gray-100"
+            >
               Start Free Trial
             </Button>
           </div>
@@ -573,63 +677,78 @@ const PricingPage = () => {
       </div>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Frequently Asked Questions
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="dark:border-gray-700">
             <CardHeader>
-              <CardTitle className="text-lg">What happens after my free trial?</CardTitle>
+              <CardTitle className="text-lg">
+                What happens after my free trial?
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground dark:text-gray-300">
-                After your 14-day free trial ends, your account will automatically switch to the Free plan unless you
-                choose to upgrade to Premium or Business.
+                After your 14-day free trial ends, your account will
+                automatically switch to the Free plan unless you choose to
+                upgrade to Premium or Business.
               </p>
             </CardContent>
           </Card>
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Can I change plans later?</h3>
             <p className="text-muted-foreground">
-              Yes, you can upgrade or downgrade your plan at any time. Upgrades take effect immediately, while
-              downgrades take effect at the end of your billing cycle.
+              Yes, you can upgrade or downgrade your plan at any time. Upgrades
+              take effect immediately, while downgrades take effect at the end
+              of your billing cycle.
             </p>
           </div>
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Is there a free trial?</h3>
             <p className="text-muted-foreground">
-              Yes, we offer a 14-day free trial on all plans. No credit card required.
+              Yes, we offer a 14-day free trial on all plans. No credit card
+              required.
             </p>
           </div>
           <div className="space-y-2">
             <h3 className="text-lg font-medium">How does billing work?</h3>
             <p className="text-muted-foreground">
-              We offer both monthly and annual billing options. Annual plans come with a 20% discount compared to
-              monthly billing.
+              We offer both monthly and annual billing options. Annual plans
+              come with a 20% discount compared to monthly billing.
             </p>
           </div>
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">Can I cancel my subscription?</h3>
+            <h3 className="text-lg font-medium">
+              Can I cancel my subscription?
+            </h3>
             <p className="text-muted-foreground">
-              Yes, you can cancel your subscription at any time. If you cancel, you'll have access to CyberRest until
-              the end of your current billing period.
+              Yes, you can cancel your subscription at any time. If you cancel,
+              you'll have access to CyberRest until the end of your current
+              billing period.
             </p>
           </div>
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">Do you offer discounts for nonprofits?</h3>
+            <h3 className="text-lg font-medium">
+              Do you offer discounts for nonprofits?
+            </h3>
             <p className="text-muted-foreground">
-              Yes, we offer special pricing for nonprofit organizations. Please contact our sales team for more
-              information.
+              Yes, we offer special pricing for nonprofit organizations. Please
+              contact our sales team for more information.
             </p>
           </div>
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">What payment methods do you accept?</h3>
+            <h3 className="text-lg font-medium">
+              What payment methods do you accept?
+            </h3>
             <p className="text-muted-foreground">
-              We accept all major credit cards, PayPal, and bank transfers for annual plans.
+              We accept all major credit cards, PayPal, and bank transfers for
+              annual plans.
             </p>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PricingPage
+export default PricingPage;

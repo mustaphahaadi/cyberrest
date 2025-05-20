@@ -1,34 +1,43 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useSearchParams, Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Search, FileText, PenToolIcon as Tool, ArrowRight, Calendar, User, Key, Lock } from "lucide-react"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
+import { useState, useEffect } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import Badge from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Search,
+  FileText,
+  PenToolIcon as Tool,
+  ArrowRight,
+  Calendar,
+  User,
+  Key,
+  Lock,
+} from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function SearchResultsPage() {
-  const searchParams = useSearchParams()
-  const query = searchParams.get("q") || ""
-  const [searchQuery, setSearchQuery] = useState(query)
-  const [results, setResults] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("all")
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") || "";
+  const [searchQuery, setSearchQuery] = useState(query);
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
-    setSearchQuery(query)
+    setSearchQuery(query);
     if (query) {
-      performSearch(query)
+      performSearch(query);
     }
-  }, [query])
+  }, [query]);
 
   const performSearch = (searchTerm) => {
-    setLoading(true)
+    setLoading(true);
 
     // Simulate API call with timeout
     setTimeout(() => {
@@ -38,7 +47,8 @@ export default function SearchResultsPage() {
           {
             id: "password-analyzer",
             title: "Password Analyzer",
-            description: "Check the strength of your passwords and get recommendations for improvement.",
+            description:
+              "Check the strength of your passwords and get recommendations for improvement.",
             url: "/tools/password-analyzer",
             icon: "key",
             relevance: 0.95,
@@ -46,7 +56,8 @@ export default function SearchResultsPage() {
           {
             id: "password-generator",
             title: "Password Generator",
-            description: "Create strong, random passwords to keep your accounts secure.",
+            description:
+              "Create strong, random passwords to keep your accounts secure.",
             url: "/tools/password-generator",
             icon: "lock",
             relevance: 0.92,
@@ -54,7 +65,8 @@ export default function SearchResultsPage() {
           {
             id: "data-breach-scanner",
             title: "Data Breach Scanner",
-            description: "Check if your email or accounts have been compromised in known data breaches.",
+            description:
+              "Check if your email or accounts have been compromised in known data breaches.",
             url: "/tools/data-breach-scanner",
             icon: "search",
             relevance: 0.85,
@@ -64,7 +76,8 @@ export default function SearchResultsPage() {
           {
             id: "password-security",
             title: "Password Security Guide",
-            description: "Learn best practices for creating and managing secure passwords.",
+            description:
+              "Learn best practices for creating and managing secure passwords.",
             url: "/docs/guides/password-security",
             category: "Guides",
             relevance: 0.9,
@@ -72,7 +85,8 @@ export default function SearchResultsPage() {
           {
             id: "two-factor-authentication",
             title: "Two-Factor Authentication Setup",
-            description: "How to set up and use two-factor authentication for enhanced security.",
+            description:
+              "How to set up and use two-factor authentication for enhanced security.",
             url: "/docs/guides/two-factor-authentication",
             category: "Guides",
             relevance: 0.8,
@@ -80,7 +94,8 @@ export default function SearchResultsPage() {
           {
             id: "password-manager-faq",
             title: "Password Manager FAQ",
-            description: "Frequently asked questions about password managers and how to use them effectively.",
+            description:
+              "Frequently asked questions about password managers and how to use them effectively.",
             url: "/docs/faq/password-managers",
             category: "FAQ",
             relevance: 0.75,
@@ -90,7 +105,8 @@ export default function SearchResultsPage() {
           {
             id: "password-security-tips",
             title: "10 Essential Password Security Tips for 2023",
-            description: "Learn how to create and manage strong passwords to protect your online accounts.",
+            description:
+              "Learn how to create and manage strong passwords to protect your online accounts.",
             url: "/blog/password-security-tips",
             date: "2023-04-15",
             author: "Alex Johnson",
@@ -100,7 +116,8 @@ export default function SearchResultsPage() {
           {
             id: "password-managers-review",
             title: "The Best Password Managers Compared",
-            description: "A comprehensive review of the top password management tools available today.",
+            description:
+              "A comprehensive review of the top password management tools available today.",
             url: "/blog/password-managers-review",
             date: "2023-03-22",
             author: "Samantha Lee",
@@ -108,25 +125,33 @@ export default function SearchResultsPage() {
             relevance: 0.82,
           },
         ],
-      }
+      };
 
-      setResults(mockResults)
-      setLoading(false)
-    }, 1000)
-  }
+      setResults(mockResults);
+      setLoading(false);
+    }, 1000);
+  };
 
   const handleSearch = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (searchQuery.trim()) {
-      window.history.pushState({}, "", `/search?q=${encodeURIComponent(searchQuery)}`)
-      performSearch(searchQuery)
+      window.history.pushState(
+        {},
+        "",
+        `/search?q=${encodeURIComponent(searchQuery)}`
+      );
+      performSearch(searchQuery);
     }
-  }
+  };
 
   const getResultCount = () => {
-    if (!results) return 0
-    return (results.tools?.length || 0) + (results.docs?.length || 0) + (results.blog?.length || 0)
-  }
+    if (!results) return 0;
+    return (
+      (results.tools?.length || 0) +
+      (results.docs?.length || 0) +
+      (results.blog?.length || 0)
+    );
+  };
 
   return (
     <>
@@ -145,7 +170,10 @@ export default function SearchResultsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button type="submit" className="absolute right-1 top-1/2 -translate-y-1/2">
+              <Button
+                type="submit"
+                className="absolute right-1 top-1/2 -translate-y-1/2"
+              >
                 Search
               </Button>
             </div>
@@ -158,14 +186,19 @@ export default function SearchResultsPage() {
                   "Searching..."
                 ) : (
                   <>
-                    Found {getResultCount()} results for <span className="font-medium">"{query}"</span>
+                    Found {getResultCount()} results for{" "}
+                    <span className="font-medium">"{query}"</span>
                   </>
                 )}
               </p>
             </div>
           )}
 
-          <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
+          <Tabs
+            defaultValue="all"
+            value={activeTab}
+            onValueChange={setActiveTab}
+          >
             <TabsList className="mb-6">
               <TabsTrigger value="all">All Results</TabsTrigger>
               <TabsTrigger value="tools">Tools</TabsTrigger>
@@ -184,7 +217,11 @@ export default function SearchResultsPage() {
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <h2 className="text-xl font-semibold">Tools</h2>
-                        <Button variant="link" size="sm" onClick={() => setActiveTab("tools")}>
+                        <Button
+                          variant="link"
+                          size="sm"
+                          onClick={() => setActiveTab("tools")}
+                        >
                           View all tools
                         </Button>
                       </div>
@@ -200,7 +237,11 @@ export default function SearchResultsPage() {
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <h2 className="text-xl font-semibold">Documentation</h2>
-                        <Button variant="link" size="sm" onClick={() => setActiveTab("docs")}>
+                        <Button
+                          variant="link"
+                          size="sm"
+                          onClick={() => setActiveTab("docs")}
+                        >
                           View all docs
                         </Button>
                       </div>
@@ -216,7 +257,11 @@ export default function SearchResultsPage() {
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <h2 className="text-xl font-semibold">Blog</h2>
-                        <Button variant="link" size="sm" onClick={() => setActiveTab("blog")}>
+                        <Button
+                          variant="link"
+                          size="sm"
+                          onClick={() => setActiveTab("blog")}
+                        >
                           View all articles
                         </Button>
                       </div>
@@ -237,7 +282,9 @@ export default function SearchResultsPage() {
               ) : !results?.tools || results.tools.length === 0 ? (
                 <NoResults query={query} type="tools" />
               ) : (
-                results.tools.map((tool) => <ToolResultCard key={tool.id} tool={tool} />)
+                results.tools.map((tool) => (
+                  <ToolResultCard key={tool.id} tool={tool} />
+                ))
               )}
             </TabsContent>
 
@@ -247,7 +294,9 @@ export default function SearchResultsPage() {
               ) : !results?.docs || results.docs.length === 0 ? (
                 <NoResults query={query} type="documentation" />
               ) : (
-                results.docs.map((doc) => <DocResultCard key={doc.id} doc={doc} />)
+                results.docs.map((doc) => (
+                  <DocResultCard key={doc.id} doc={doc} />
+                ))
               )}
             </TabsContent>
 
@@ -257,7 +306,9 @@ export default function SearchResultsPage() {
               ) : !results?.blog || results.blog.length === 0 ? (
                 <NoResults query={query} type="blog posts" />
               ) : (
-                results.blog.map((post) => <BlogResultCard key={post.id} post={post} />)
+                results.blog.map((post) => (
+                  <BlogResultCard key={post.id} post={post} />
+                ))
               )}
             </TabsContent>
           </Tabs>
@@ -265,7 +316,7 @@ export default function SearchResultsPage() {
       </main>
       <Footer />
     </>
-  )
+  );
 }
 
 function ToolResultCard({ tool }) {
@@ -297,7 +348,7 @@ function ToolResultCard({ tool }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function DocResultCard({ doc }) {
@@ -323,7 +374,7 @@ function DocResultCard({ doc }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function BlogResultCard({ post }) {
@@ -360,7 +411,7 @@ function BlogResultCard({ post }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function SearchResultsSkeleton({ count = 3 }) {
@@ -379,7 +430,7 @@ function SearchResultsSkeleton({ count = 3 }) {
         </Card>
       ))}
     </div>
-  )
+  );
 }
 
 function NoResults({ query, type = "results" }) {
@@ -388,7 +439,8 @@ function NoResults({ query, type = "results" }) {
       <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
       <h3 className="text-lg font-medium mb-2">No {type} found</h3>
       <p className="text-muted-foreground mb-6">
-        We couldn't find any {type} matching "{query}". Try different keywords or browse our resources below.
+        We couldn't find any {type} matching "{query}". Try different keywords
+        or browse our resources below.
       </p>
       <div className="flex flex-wrap justify-center gap-4">
         <Button asChild>
@@ -402,5 +454,5 @@ function NoResults({ query, type = "results" }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }

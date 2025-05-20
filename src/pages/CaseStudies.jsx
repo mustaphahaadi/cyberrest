@@ -1,18 +1,31 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ArrowRight, Search, Filter, Quote } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import { ArrowRight, Search, Filter, Quote } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Badge from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CaseStudies = () => {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [industryFilter, setIndustryFilter] = useState("all")
-  const [solutionFilter, setSolutionFilter] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [industryFilter, setIndustryFilter] = useState("all");
+  const [solutionFilter, setSolutionFilter] = useState("all");
 
   const industries = [
     { id: "all", name: "All Industries" },
@@ -23,7 +36,7 @@ const CaseStudies = () => {
     { id: "retail", name: "Retail" },
     { id: "government", name: "Government" },
     { id: "education", name: "Education" },
-  ]
+  ];
 
   const solutions = [
     { id: "all", name: "All Solutions" },
@@ -32,7 +45,7 @@ const CaseStudies = () => {
     { id: "compliance", name: "Compliance" },
     { id: "training", name: "Security Training" },
     { id: "vulnerability", name: "Vulnerability Management" },
-  ]
+  ];
 
   const caseStudies = [
     {
@@ -169,7 +182,8 @@ const CaseStudies = () => {
       quote: {
         text: "CyberRest has helped us transform our security program from reactive to proactive. We're now able to identify and address vulnerabilities before they can be exploited.",
         author: "Thomas Wilson",
-        title: "Chief Information Security Officer, State Department of Administration",
+        title:
+          "Chief Information Security Officer, State Department of Administration",
       },
       featured: false,
     },
@@ -196,32 +210,35 @@ const CaseStudies = () => {
       },
       featured: false,
     },
-  ]
+  ];
 
   // Filter case studies based on search query and filters
   const filteredCaseStudies = caseStudies.filter((study) => {
     const matchesSearch =
       study.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       study.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      study.summary.toLowerCase().includes(searchQuery.toLowerCase())
+      study.summary.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesIndustry = industryFilter === "all" || study.industry === industryFilter
+    const matchesIndustry =
+      industryFilter === "all" || study.industry === industryFilter;
 
-    const matchesSolution = solutionFilter === "all" || study.solutions.includes(solutionFilter)
+    const matchesSolution =
+      solutionFilter === "all" || study.solutions.includes(solutionFilter);
 
-    return matchesSearch && matchesIndustry && matchesSolution
-  })
+    return matchesSearch && matchesIndustry && matchesSolution;
+  });
 
   // Get featured case studies
-  const featuredCaseStudies = caseStudies.filter((study) => study.featured)
+  const featuredCaseStudies = caseStudies.filter((study) => study.featured);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4">Customer Success Stories</h1>
         <p className="text-muted-foreground max-w-3xl">
-          Discover how organizations across industries are using CyberRest to strengthen their security posture, achieve
-          compliance, and protect sensitive data.
+          Discover how organizations across industries are using CyberRest to
+          strengthen their security posture, achieve compliance, and protect
+          sensitive data.
         </p>
       </div>
 
@@ -280,8 +297,14 @@ const CaseStudies = () => {
                 </div>
                 <CardHeader>
                   <div className="flex items-center mb-2">
-                    <img src={study.logo || "/placeholder.svg"} alt={`${study.company} logo`} className="h-8 mr-3" />
-                    <Badge variant="outline">{industries.find((i) => i.id === study.industry)?.name}</Badge>
+                    <img
+                      src={study.logo || "/placeholder.svg"}
+                      alt={`${study.company} logo`}
+                      className="h-8 mr-3"
+                    />
+                    <Badge variant="outline">
+                      {industries.find((i) => i.id === study.industry)?.name}
+                    </Badge>
                   </div>
                   <CardTitle>{study.title}</CardTitle>
                   <CardDescription>{study.summary}</CardDescription>
@@ -292,7 +315,10 @@ const CaseStudies = () => {
                       <h4 className="text-sm font-medium mb-2">Results:</h4>
                       <ul className="space-y-1">
                         {study.results.map((result, index) => (
-                          <li key={index} className="text-sm text-muted-foreground flex items-start">
+                          <li
+                            key={index}
+                            className="text-sm text-muted-foreground flex items-start"
+                          >
                             <span className="mr-2">•</span>
                             {result}
                           </li>
@@ -304,8 +330,12 @@ const CaseStudies = () => {
                         <Quote className="h-5 w-5 text-primary mr-2 mt-1 shrink-0" />
                         <div>
                           <p className="text-sm italic">{study.quote.text}</p>
-                          <p className="text-sm font-medium mt-2">{study.quote.author}</p>
-                          <p className="text-xs text-muted-foreground">{study.quote.title}</p>
+                          <p className="text-sm font-medium mt-2">
+                            {study.quote.author}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {study.quote.title}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -336,14 +366,16 @@ const CaseStudies = () => {
         <TabsContent value="all" className="mt-6">
           {filteredCaseStudies.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No case studies found matching your criteria.</p>
+              <p className="text-muted-foreground">
+                No case studies found matching your criteria.
+              </p>
               <Button
                 variant="outline"
                 className="mt-4"
                 onClick={() => {
-                  setSearchQuery("")
-                  setIndustryFilter("all")
-                  setSolutionFilter("all")
+                  setSearchQuery("");
+                  setIndustryFilter("all");
+                  setSolutionFilter("all");
                 }}
               >
                 Clear Filters
@@ -355,28 +387,46 @@ const CaseStudies = () => {
                 <Card key={study.id} className="h-full flex flex-col">
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
-                      <img src={study.logo || "/placeholder.svg"} alt={`${study.company} logo`} className="h-8" />
-                      <Badge variant="outline">{industries.find((i) => i.id === study.industry)?.name}</Badge>
+                      <img
+                        src={study.logo || "/placeholder.svg"}
+                        alt={`${study.company} logo`}
+                        className="h-8"
+                      />
+                      <Badge variant="outline">
+                        {industries.find((i) => i.id === study.industry)?.name}
+                      </Badge>
                     </div>
-                    <CardTitle className="line-clamp-2">{study.title}</CardTitle>
+                    <CardTitle className="line-clamp-2">
+                      {study.title}
+                    </CardTitle>
                     <CardDescription>{study.company}</CardDescription>
                   </CardHeader>
                   <CardContent className="flex-grow">
-                    <p className="text-sm text-muted-foreground mb-4">{study.summary}</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {study.summary}
+                    </p>
                     <div className="space-y-2">
                       <div className="flex items-center">
                         <span className="text-sm font-medium">Solutions:</span>
                         <div className="flex flex-wrap gap-1 ml-2">
                           {study.solutions.map((solution) => (
-                            <Badge key={solution} variant="secondary" className="text-xs">
+                            <Badge
+                              key={solution}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {solutions.find((s) => s.id === solution)?.name}
                             </Badge>
                           ))}
                         </div>
                       </div>
                       <div>
-                        <span className="text-sm font-medium">Key Results:</span>
-                        <p className="text-sm text-muted-foreground">{study.results[0]}</p>
+                        <span className="text-sm font-medium">
+                          Key Results:
+                        </span>
+                        <p className="text-sm text-muted-foreground">
+                          {study.results[0]}
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -402,28 +452,46 @@ const CaseStudies = () => {
                   <Card key={study.id} className="h-full flex flex-col">
                     <CardHeader>
                       <div className="flex items-center justify-between mb-2">
-                        <img src={study.logo || "/placeholder.svg"} alt={`${study.company} logo`} className="h-8" />
+                        <img
+                          src={study.logo || "/placeholder.svg"}
+                          alt={`${study.company} logo`}
+                          className="h-8"
+                        />
                         <Badge variant="outline">{industry.name}</Badge>
                       </div>
-                      <CardTitle className="line-clamp-2">{study.title}</CardTitle>
+                      <CardTitle className="line-clamp-2">
+                        {study.title}
+                      </CardTitle>
                       <CardDescription>{study.company}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow">
-                      <p className="text-sm text-muted-foreground mb-4">{study.summary}</p>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {study.summary}
+                      </p>
                       <div className="space-y-2">
                         <div className="flex items-center">
-                          <span className="text-sm font-medium">Solutions:</span>
+                          <span className="text-sm font-medium">
+                            Solutions:
+                          </span>
                           <div className="flex flex-wrap gap-1 ml-2">
                             {study.solutions.map((solution) => (
-                              <Badge key={solution} variant="secondary" className="text-xs">
+                              <Badge
+                                key={solution}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 {solutions.find((s) => s.id === solution)?.name}
                               </Badge>
                             ))}
                           </div>
                         </div>
                         <div>
-                          <span className="text-sm font-medium">Key Results:</span>
-                          <p className="text-sm text-muted-foreground">{study.results[0]}</p>
+                          <span className="text-sm font-medium">
+                            Key Results:
+                          </span>
+                          <p className="text-sm text-muted-foreground">
+                            {study.results[0]}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -445,19 +513,27 @@ const CaseStudies = () => {
       <div className="bg-primary text-primary-foreground rounded-lg p-8 mt-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="text-2xl font-bold mb-2">Ready to become our next success story?</h2>
-            <p className="mb-0">Join thousands of organizations that trust CyberRest for their security needs.</p>
+            <h2 className="text-2xl font-bold mb-2">
+              Ready to become our next success story?
+            </h2>
+            <p className="mb-0">
+              Join thousands of organizations that trust CyberRest for their
+              security needs.
+            </p>
           </div>
           <div className="flex flex-wrap gap-4">
             <Button variant="secondary">Schedule a Demo</Button>
-            <Button variant="default" className="bg-white text-primary hover:bg-gray-100">
+            <Button
+              variant="default"
+              className="bg-white text-primary hover:bg-gray-100"
+            >
               Start Free Trial
             </Button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CaseStudies
+export default CaseStudies;

@@ -1,18 +1,39 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Code, Lock, Database, Bell, Zap, Server, GitBranch, Copy, ExternalLink } from "lucide-react"
-import Input from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Badge from "@/components/ui/badge"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Code,
+  Lock,
+  Database,
+  Bell,
+  Zap,
+  Server,
+  GitBranch,
+  Copy,
+  ExternalLink,
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Badge from "@/components/ui/badge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const ApiReference = () => {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedLanguage, setSelectedLanguage] = useState("curl")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("curl");
 
   const apiEndpoints = [
     {
@@ -64,7 +85,8 @@ const ApiReference = () => {
           name: "Data Breach Check",
           method: "POST",
           path: "/api/v1/tools/breach-check",
-          description: "Check if credentials have been exposed in known data breaches",
+          description:
+            "Check if credentials have been exposed in known data breaches",
           isNew: false,
         },
         {
@@ -125,7 +147,8 @@ const ApiReference = () => {
           name: "Configure Webhooks",
           method: "POST",
           path: "/api/v1/webhooks",
-          description: "Configure webhook endpoints for real-time notifications",
+          description:
+            "Configure webhook endpoints for real-time notifications",
           isNew: false,
         },
         {
@@ -185,7 +208,7 @@ const ApiReference = () => {
         },
       ],
     },
-  ]
+  ];
 
   const filteredEndpoints = searchQuery
     ? apiEndpoints
@@ -195,14 +218,16 @@ const ApiReference = () => {
             (endpoint) =>
               endpoint.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
               endpoint.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              endpoint.description.toLowerCase().includes(searchQuery.toLowerCase()),
+              endpoint.description
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
           ),
         }))
         .filter((category) => category.endpoints.length > 0)
-    : apiEndpoints
+    : apiEndpoints;
 
   const getCodeExample = (endpoint, language) => {
-    const { method, path } = endpoint
+    const { method, path } = endpoint;
 
     switch (language) {
       case "curl":
@@ -210,7 +235,7 @@ const ApiReference = () => {
   https://api.cyberrest.com${path} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{"param1": "value1", "param2": "value2"}'`
+  -d '{"param1": "value1", "param2": "value2"}'`;
 
       case "javascript":
         return `const response = await fetch('https://api.cyberrest.com${path}', {
@@ -226,7 +251,7 @@ const ApiReference = () => {
 });
 
 const data = await response.json();
-console.log(data);`
+console.log(data);`;
 
       case "python":
         return `import requests
@@ -243,24 +268,27 @@ payload = {
 
 response = requests.${method.toLowerCase()}(url, json=payload, headers=headers)
 data = response.json()
-print(data)`
+print(data)`;
 
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard.writeText(text);
     // You could add a toast notification here
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">API Reference</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">
+          API Reference
+        </h1>
         <p className="text-muted-foreground max-w-3xl">
-          Integrate CyberRest's powerful security tools into your applications with our comprehensive API.
+          Integrate CyberRest's powerful security tools into your applications
+          with our comprehensive API.
         </p>
       </div>
 
@@ -286,7 +314,9 @@ print(data)`
                   className="w-full justify-start"
                   onClick={() =>
                     document
-                      .getElementById(category.category.toLowerCase().replace(" ", "-"))
+                      .getElementById(
+                        category.category.toLowerCase().replace(" ", "-")
+                      )
                       .scrollIntoView({ behavior: "smooth" })
                   }
                 >
@@ -298,25 +328,41 @@ print(data)`
 
             <div className="mt-8 space-y-4">
               <h3 className="font-medium mb-2">Resources</h3>
-              <Button variant="outline" className="w-full justify-start" asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                asChild
+              >
                 <Link to="/docs/api/authentication">
                   <Lock className="mr-2 h-4 w-4" />
                   Authentication Guide
                 </Link>
               </Button>
-              <Button variant="outline" className="w-full justify-start" asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                asChild
+              >
                 <Link to="/docs/api/rate-limits">
                   <Zap className="mr-2 h-4 w-4" />
                   Rate Limits
                 </Link>
               </Button>
-              <Button variant="outline" className="w-full justify-start" asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                asChild
+              >
                 <Link to="/docs/api/errors">
                   <Code className="mr-2 h-4 w-4" />
                   Error Codes
                 </Link>
               </Button>
-              <Button variant="outline" className="w-full justify-start" asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                asChild
+              >
                 <Link to="/docs/api/versioning">
                   <GitBranch className="mr-2 h-4 w-4" />
                   API Versioning
@@ -327,7 +373,8 @@ print(data)`
             <div className="mt-8 p-4 bg-primary/5 rounded-lg">
               <h3 className="font-medium mb-2">Need Help?</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Can't find what you're looking for or need assistance with integration?
+                Can't find what you're looking for or need assistance with
+                integration?
               </p>
               <Button className="w-full" asChild>
                 <Link to="/contact">Contact Support</Link>
@@ -341,7 +388,8 @@ print(data)`
             <CardHeader>
               <CardTitle>Getting Started</CardTitle>
               <CardDescription>
-                Follow these steps to start using the CyberRest API in your applications
+                Follow these steps to start using the CyberRest API in your
+                applications
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -350,7 +398,10 @@ print(data)`
                   <span className="font-medium">Generate an API Key</span>
                   <p className="text-sm text-muted-foreground mt-1 ml-6">
                     Create an API key in your{" "}
-                    <Link to="/dashboard/settings" className="text-primary hover:underline">
+                    <Link
+                      to="/dashboard/settings"
+                      className="text-primary hover:underline"
+                    >
                       account settings
                     </Link>
                     .
@@ -360,20 +411,25 @@ print(data)`
                   <span className="font-medium">Include Authentication</span>
                   <p className="text-sm text-muted-foreground mt-1 ml-6">
                     Add your API key to the Authorization header:{" "}
-                    <code className="bg-muted px-1 py-0.5 rounded">Authorization: Bearer YOUR_API_KEY</code>
+                    <code className="bg-muted px-1 py-0.5 rounded">
+                      Authorization: Bearer YOUR_API_KEY
+                    </code>
                   </p>
                 </li>
                 <li className="pl-2">
                   <span className="font-medium">Make Requests</span>
                   <p className="text-sm text-muted-foreground mt-1 ml-6">
                     All API requests should be made to{" "}
-                    <code className="bg-muted px-1 py-0.5 rounded">https://api.cyberrest.com</code>
+                    <code className="bg-muted px-1 py-0.5 rounded">
+                      https://api.cyberrest.com
+                    </code>
                   </p>
                 </li>
                 <li className="pl-2">
                   <span className="font-medium">Handle Responses</span>
                   <p className="text-sm text-muted-foreground mt-1 ml-6">
-                    All responses are returned in JSON format with appropriate HTTP status codes.
+                    All responses are returned in JSON format with appropriate
+                    HTTP status codes.
                   </p>
                 </li>
               </ol>
@@ -382,7 +438,11 @@ print(data)`
 
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-4">API Reference</h2>
-            <Tabs value={selectedLanguage} onValueChange={setSelectedLanguage} className="mb-6">
+            <Tabs
+              value={selectedLanguage}
+              onValueChange={setSelectedLanguage}
+              className="mb-6"
+            >
               <TabsList>
                 <TabsTrigger value="curl">cURL</TabsTrigger>
                 <TabsTrigger value="javascript">JavaScript</TabsTrigger>
@@ -398,7 +458,9 @@ print(data)`
               className="mb-10 scroll-mt-4"
             >
               <div className="flex items-center mb-4">
-                <div className="p-2 rounded-md bg-primary/10 mr-3">{category.icon}</div>
+                <div className="p-2 rounded-md bg-primary/10 mr-3">
+                  {category.icon}
+                </div>
                 <h2 className="text-xl font-bold">{category.category}</h2>
               </div>
 
@@ -413,23 +475,30 @@ print(data)`
                               endpoint.method === "GET"
                                 ? "bg-green-100 text-green-800"
                                 : endpoint.method === "POST"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : endpoint.method === "PUT"
-                                    ? "bg-yellow-100 text-yellow-800"
-                                    : "bg-red-100 text-red-800"
+                                ? "bg-blue-100 text-blue-800"
+                                : endpoint.method === "PUT"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
                             }`}
                           >
                             {endpoint.method}
                           </Badge>
-                          <CardTitle className="text-lg">{endpoint.name}</CardTitle>
+                          <CardTitle className="text-lg">
+                            {endpoint.name}
+                          </CardTitle>
                         </div>
                         {endpoint.isNew && (
-                          <Badge variant="outline" className="bg-primary/10 text-primary">
+                          <Badge
+                            variant="outline"
+                            className="bg-primary/10 text-primary"
+                          >
                             New
                           </Badge>
                         )}
                       </div>
-                      <CardDescription className="mt-1">{endpoint.description}</CardDescription>
+                      <CardDescription className="mt-1">
+                        {endpoint.description}
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <Accordion type="single" collapsible className="w-full">
@@ -441,10 +510,10 @@ print(data)`
                                   endpoint.method === "GET"
                                     ? "text-green-600"
                                     : endpoint.method === "POST"
-                                      ? "text-blue-600"
-                                      : endpoint.method === "PUT"
-                                        ? "text-yellow-600"
-                                        : "text-red-600"
+                                    ? "text-blue-600"
+                                    : endpoint.method === "PUT"
+                                    ? "text-yellow-600"
+                                    : "text-red-600"
                                 }`}
                               >
                                 {endpoint.method}
@@ -455,16 +524,30 @@ print(data)`
                           <AccordionContent>
                             <div className="mt-4 space-y-4">
                               <div>
-                                <h4 className="text-sm font-medium mb-2">Request Example</h4>
+                                <h4 className="text-sm font-medium mb-2">
+                                  Request Example
+                                </h4>
                                 <div className="relative">
                                   <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
-                                    <code>{getCodeExample(endpoint, selectedLanguage)}</code>
+                                    <code>
+                                      {getCodeExample(
+                                        endpoint,
+                                        selectedLanguage
+                                      )}
+                                    </code>
                                   </pre>
                                   <Button
                                     variant="ghost"
                                     size="icon"
                                     className="absolute top-2 right-2"
-                                    onClick={() => copyToClipboard(getCodeExample(endpoint, selectedLanguage))}
+                                    onClick={() =>
+                                      copyToClipboard(
+                                        getCodeExample(
+                                          endpoint,
+                                          selectedLanguage
+                                        )
+                                      )
+                                    }
                                   >
                                     <Copy className="h-4 w-4" />
                                   </Button>
@@ -472,7 +555,9 @@ print(data)`
                               </div>
 
                               <div>
-                                <h4 className="text-sm font-medium mb-2">Response Example</h4>
+                                <h4 className="text-sm font-medium mb-2">
+                                  Response Example
+                                </h4>
                                 <div className="relative">
                                   <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
                                     <code>{`{
@@ -510,7 +595,9 @@ print(data)`
 
                               <div className="flex justify-end">
                                 <Button variant="outline" size="sm" asChild>
-                                  <Link to={`/api-reference/endpoints${endpoint.path}`}>
+                                  <Link
+                                    to={`/api-reference/endpoints${endpoint.path}`}
+                                  >
                                     View Full Documentation
                                     <ExternalLink className="ml-2 h-3 w-3" />
                                   </Link>
@@ -533,8 +620,16 @@ print(data)`
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 18.178L4.632 13.352L12 8.525L19.368 13.352L12 18.178Z" fill="#F7DF1E" />
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 18.178L4.632 13.352L12 8.525L19.368 13.352L12 18.178Z"
+                        fill="#F7DF1E"
+                      />
                       <path
                         d="M12 4L21.392 9.5V18.5L12 24L2.608 18.5V9.5L12 4Z"
                         stroke="currentColor"
@@ -548,14 +643,19 @@ print(data)`
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Official JavaScript SDK for Node.js and browser applications.
+                    Official JavaScript SDK for Node.js and browser
+                    applications.
                   </p>
                   <div className="flex space-x-2">
                     <Button variant="outline" size="sm" asChild>
                       <Link to="/docs/sdks/javascript">Documentation</Link>
                     </Button>
                     <Button size="sm" asChild>
-                      <a href="https://github.com/cyberrest/javascript-sdk" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href="https://github.com/cyberrest/javascript-sdk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <GitBranch className="mr-2 h-4 w-4" />
                         GitHub
                       </a>
@@ -567,7 +667,12 @@ print(data)`
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M12.04 4.67L4.53 19.5H8.03L9.17 17.12H14.91L16.05 19.5H19.55L12.04 4.67ZM10.2 14.56L12.04 10.44L13.88 14.56H10.2Z"
                         fill="#3776AB"
@@ -592,7 +697,11 @@ print(data)`
                       <Link to="/docs/sdks/python">Documentation</Link>
                     </Button>
                     <Button size="sm" asChild>
-                      <a href="https://github.com/cyberrest/python-sdk" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href="https://github.com/cyberrest/python-sdk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <GitBranch className="mr-2 h-4 w-4" />
                         GitHub
                       </a>
@@ -604,7 +713,12 @@ print(data)`
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
                         fill="#5C2D91"
@@ -622,13 +736,19 @@ print(data)`
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">Official .NET SDK for C# applications.</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Official .NET SDK for C# applications.
+                  </p>
                   <div className="flex space-x-2">
                     <Button variant="outline" size="sm" asChild>
                       <Link to="/docs/sdks/dotnet">Documentation</Link>
                     </Button>
                     <Button size="sm" asChild>
-                      <a href="https://github.com/cyberrest/dotnet-sdk" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href="https://github.com/cyberrest/dotnet-sdk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <GitBranch className="mr-2 h-4 w-4" />
                         GitHub
                       </a>
@@ -641,7 +761,7 @@ print(data)`
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ApiReference
+export default ApiReference;

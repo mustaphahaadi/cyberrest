@@ -1,4 +1,10 @@
-export default function Input({ type = "text", value, onChange, className = "", ...props }) {
+export function Input({
+  type = "text",
+  value,
+  onChange,
+  className = "",
+  ...props
+}) {
   return (
     <input
       type={type}
@@ -7,5 +13,5 @@ export default function Input({ type = "text", value, onChange, className = "", 
       className={`border rounded px-3 py-2 ${className}`}
       {...props}
     />
-  )
+  );
 }

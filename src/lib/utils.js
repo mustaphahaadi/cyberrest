@@ -1,8 +1,8 @@
-import { clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function formatDate(date) {
@@ -10,19 +10,19 @@ export function formatDate(date) {
     month: "long",
     day: "numeric",
     year: "numeric",
-  })
+  });
 }
 
 export function truncateText(text, maxLength) {
-  if (text.length <= maxLength) return text
-  return text.slice(0, maxLength) + "..."
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + "...";
 }
 
 export function getInitials(name) {
-  if (!name) return ""
+  if (!name) return "";
   return name
     .split(" ")
     .map((part) => part[0])
     .join("")
-    .toUpperCase()
+    .toUpperCase();
 }

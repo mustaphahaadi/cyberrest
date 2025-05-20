@@ -1,16 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import Input from "@/components/ui/input"
-import Badge from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, Calendar, User, ArrowRight } from "lucide-react"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import Badge from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Calendar, User, ArrowRight } from "lucide-react";
 
 export default function BlogPage() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Mock blog posts data
   const blogPosts = [
@@ -86,27 +93,32 @@ export default function BlogPage() {
       image: "/placeholder.svg?height=200&width=400",
       readTime: 4,
     },
-  ]
+  ];
 
   // Filter posts based on search query
   const filteredPosts = blogPosts.filter(
     (post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())),
-  )
+      post.tags.some((tag) =>
+        tag.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+  );
 
   // Group posts by category
-  const guidesPosts = blogPosts.filter((post) => post.category === "guides")
-  const threatsPosts = blogPosts.filter((post) => post.category === "threats")
+  const guidesPosts = blogPosts.filter((post) => post.category === "guides");
+  const threatsPosts = blogPosts.filter((post) => post.category === "threats");
 
   return (
     <div className="py-16 md:py-24">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">CyberRest Blog</h1>
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            CyberRest Blog
+          </h1>
           <p className="mx-auto mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-            Stay informed with the latest cybersecurity news, tips, and best practices.
+            Stay informed with the latest cybersecurity news, tips, and best
+            practices.
           </p>
 
           <div className="mt-6 max-w-md mx-auto">
@@ -125,7 +137,9 @@ export default function BlogPage() {
 
         {searchQuery ? (
           <>
-            <h2 className="text-2xl font-bold mb-6">Search Results for "{searchQuery}"</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              Search Results for "{searchQuery}"
+            </h2>
             {filteredPosts.length === 0 ? (
               <p className="text-center text-muted-foreground py-12">
                 No articles found matching your search. Try different keywords.
@@ -154,8 +168,12 @@ export default function BlogPage() {
                   <div className="md:w-1/2 p-6 flex flex-col">
                     <div className="flex-1">
                       <Badge>{blogPosts[0].category}</Badge>
-                      <h3 className="text-2xl font-bold mt-2 mb-2">{blogPosts[0].title}</h3>
-                      <p className="text-muted-foreground mb-4">{blogPosts[0].excerpt}</p>
+                      <h3 className="text-2xl font-bold mt-2 mb-2">
+                        {blogPosts[0].title}
+                      </h3>
+                      <p className="text-muted-foreground mb-4">
+                        {blogPosts[0].excerpt}
+                      </p>
                       <div className="flex items-center text-sm text-muted-foreground mb-6">
                         <Calendar className="h-4 w-4 mr-1" />
                         <span>{blogPosts[0].date}</span>
@@ -213,9 +231,12 @@ export default function BlogPage() {
             </Tabs>
 
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-4">Subscribe to Our Newsletter</h2>
+              <h2 className="text-2xl font-bold mb-4">
+                Subscribe to Our Newsletter
+              </h2>
               <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
-                Get the latest cybersecurity news, tips, and updates delivered directly to your inbox.
+                Get the latest cybersecurity news, tips, and updates delivered
+                directly to your inbox.
               </p>
               <div className="flex max-w-md mx-auto gap-2">
                 <Input type="email" placeholder="Your email address" />
@@ -226,17 +247,23 @@ export default function BlogPage() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function BlogPostCard({ post }) {
   return (
     <Card className="overflow-hidden flex flex-col h-full">
-      <img src={post.image || "/placeholder.svg"} alt={post.title} className="h-48 w-full object-cover" />
+      <img
+        src={post.image || "/placeholder.svg"}
+        alt={post.title}
+        className="h-48 w-full object-cover"
+      />
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <Badge>{post.category}</Badge>
-          <span className="text-xs text-muted-foreground">{post.readTime} min read</span>
+          <span className="text-xs text-muted-foreground">
+            {post.readTime} min read
+          </span>
         </div>
         <CardTitle className="text-xl">{post.title}</CardTitle>
       </CardHeader>
@@ -256,5 +283,5 @@ function BlogPostCard({ post }) {
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
