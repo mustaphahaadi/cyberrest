@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Code, Lock, Database, Bell, Zap, Server, GitBranch, Copy, ExternalLink } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import Input from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
