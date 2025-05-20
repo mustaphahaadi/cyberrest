@@ -2,18 +2,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { ThemeProvider } from "./components/ThemeProvider"
 import { AuthProvider } from "./contexts/AuthContext"
 import ProtectedRoute from "./components/ProtectedRoute"
-import DashboardLayout from "./layouts/DashboardLayout"
-import HomePage from "./pages/HomePage"
-import LoginPage from "./pages/auth/LoginPage"
-import RegisterPage from "./pages/auth/RegisterPage"
-import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage"
-import Dashboard from "./pages/dashboard/Dashboard"
-import DataBreachScanner from "./pages/tools/DataBreachScanner"
-import PhishingDetector from "./pages/tools/PhishingDetector"
-import NetworkScanner from "./pages/tools/NetworkScanner"
-import PasswordAnalyzer from "./pages/tools/PasswordAnalyzer"
-import PasswordGenerator from "./pages/tools/PasswordGenerator"
-import NotFoundPage from "./pages/NotFoundPage"
+import DashboardLayout from "./components/layouts/DashboardLayout"
+import HomePage from "./components/pages/HomePage"
+import LoginPage from "./components/pages/auth/LoginPage"
+import RegisterPage from "./componentspages/auth/RegisterPage"
+import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage"
+import Dashboard from "./components/pages/dashboard/Dashboard"
+import DataBreachScanner from "./components/pages/tools/DataBreachScanner"
+import PhishingDetector from "./components/pages/tools/PhishingDetector"
+import NetworkScanner from "./components/pages/tools/NetworkScanner"
+import PasswordAnalyzer from "./components/pages/tools/PasswordAnalyzer"
+import PasswordGenerator from "./components/pages/tools/PasswordGenerator"
+import NotFoundPage from "./components/pages/NotFoundPage"
 
 function App() {
   return (
@@ -40,6 +40,7 @@ function App() {
               <Route path="network-scanner" element={<NetworkScanner />} />
               <Route path="password-analyzer" element={<PasswordAnalyzer />} />
               <Route path="password-generator" element={<PasswordGenerator />} />
+              {/* <Route path="" */}
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />
