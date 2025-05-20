@@ -48,11 +48,11 @@ export default function DashboardLayout() {
   }
 
   const tools = [
-    { name: "Password Analyzer", path: "/tools/password-analyzer", icon: Key },
-    { name: "Password Generator", path: "/tools/password-generator", icon: Lock },
-    { name: "Data Breach Scanner", path: "/tools/data-breach-scanner", icon: Search },
-    { name: "Dark Web Monitor", path: "/tools/dark-web-monitor", icon: Eye },
-    { name: "Phishing Detector", path: "/tools/phishing-detector", icon: Globe },
+    { name: "Password Analyzer", path: "/dashboard/tools/password-analyzer", icon: Key },
+    { name: "Password Generator", path: "/dashboard/tools/password-generator", icon: Lock },
+    { name: "Data Breach Scanner", path: "/dashboard/tools/data-breach-scanner", icon: Search },
+    { name: "Dark Web Monitor", path: "/dashboard/tools/dark-web-monitor", icon: Eye },
+    { name: "Phishing Detector", path: "/dashboard/tools/phishing-detector", icon: Globe },
     { name: "Network Scanner", path: "/tools/network-scanner", icon: Wifi },
     { name: "Device Security Scanner", path: "/tools/device-security-scanner", icon: Scan },
     { name: "Encryption Tool", path: "/tools/encryption-tool", icon: FileText },

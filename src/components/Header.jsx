@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { ModeToggle } from "./ModeToggle"
 
-function Header() {
+export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, logout } = useAuth()
 

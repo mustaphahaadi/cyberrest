@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Header from "../../components/Header"
+import { Shield } from "lucide-react"
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -23,57 +25,58 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-md">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold">Reset Password</h1>
-          <p className="text-gray-600 mt-2">
-            Enter your email address and we'll send you a link to reset your password
-          </p>
-        </div>
-
-        {isSubmitted ? (
-          <div className="text-center">
-            <div className="bg-green-100 text-green-700 p-4 rounded-md mb-6">
-              Password reset link has been sent to your email address.
-            </div>
-            <Link to="/login" className="text-blue-600 hover:underline">
-              Return to login
-            </Link>
+    <div>
+      <Header />
+      <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-background p-4">
+        <div className="w-full max-w-md space-y-8 rounded-lg border bg-card p-6 shadow-sm">
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <Shield className="h-12 w-12 text-primary" />
+            <h1 className="text-2xl font-bold">Reset your password</h1>
+            <p className="text-sm text-muted-foreground">
+              Enter your email address and we'll send you instructions to reset your password
+            </p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            {error && <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6">{error}</div>}
-
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              Send Reset Link
-            </button>
-
-            <div className="mt-6 text-center">
-              <Link to="/login" className="text-blue-600 hover:underline">
-                Back to login
+          {error && <div className="rounded-md bg-red-50 p-4 text-sm text-red-500">{error}</div>}
+          {isSubmitted ? (
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">
+                If an account exists with that email, you'll receive password reset instructions.
+              </p>
+              <Link to="/login" className="mt-4 block text-sm text-primary hover:underline">
+                Return to login
               </Link>
             </div>
-          </form>
-        )}
-      </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="m@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              >
+                Reset Password
+              </button>
+              <div className="text-center text-sm">
+                <Link to="/login" className="text-primary hover:underline">
+                  Back to login
+                </Link>
+              </div>
+            </form>
+          )}
+        </div>
+      </main>
     </div>
   )
 }
