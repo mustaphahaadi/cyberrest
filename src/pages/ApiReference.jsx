@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Search, Key, Database, Clock, Code, Settings } from "lucide-react"
+import Input from "@/components/ui/input"
 
 const ApiReference = () => {
   const [searchQuery, setSearchQuery] = useState("")

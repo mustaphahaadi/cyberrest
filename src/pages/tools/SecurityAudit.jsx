@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
+import Badge from "@/components/ui/badge"
 import { ClipboardCheck, Shield, AlertTriangle, CheckCircle, Info, ArrowRight, Download, Clock } from "lucide-react"
 
 export default function SecurityAudit() {

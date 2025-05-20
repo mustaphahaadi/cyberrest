@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
+import Badge from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   Dialog,
@@ -707,14 +707,16 @@ export default function TeamManagement() {
                     <CardTitle>{role.name}</CardTitle>
                     <Badge variant="outline">{role.memberCount} users</Badge>
                   </div>
-                  <CardDescription>{role.description}</CardHeader>
+                  <CardDescription>{role.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <CardFooter>
+                    <Button variant="outline" className="w-full" disabled={role.id === "role_admin"}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      Edit Role
+                    </Button>
+                  </CardFooter>
                 </CardContent>
-                <CardFooter>
-                  <Button variant="outline" className="w-full" disabled={role.id === "role_admin"}>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Edit Role
-                  </Button>
-                </CardFooter>
               </Card>
             ))}
           </div>

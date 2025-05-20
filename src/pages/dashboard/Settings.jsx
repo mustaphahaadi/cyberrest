@@ -1,6 +1,6 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
+import Badge from "@/components/ui/badge"
 
 import { useState } from "react"
 import { useAuth } from "@/contexts/AuthContext"

@@ -9,7 +9,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
+import Badge from "@/components/ui/badge"
 import { ShieldAlert, Plus, Trash2, Info, Globe, Server, Wifi, AlertTriangle } from "lucide-react"
 
 export default function FirewallTool() {
