@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function Calendar({ value, onChange, className = "" }) {
+function Calendar({ value, onChange, className = "" }) {
   const [date, setDate] = useState(value || "")
   return (
     <input
@@ -14,3 +14,6 @@ export default function Calendar({ value, onChange, className = "" }) {
     />
   )
 }
+
+export default Calendar;
+export { Calendar };

@@ -31,5 +31,16 @@ function DialogTitle({ children, className = "" }) {
   return <h2 className={`text-lg font-semibold ${className}`}>{children}</h2>;
 }
 
+function DialogTrigger({ children, onClick, className = "" }) {
+  return (
+    <button 
+      onClick={onClick}
+      className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
+
 export default Dialog;
-export { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle };
+export { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger };
