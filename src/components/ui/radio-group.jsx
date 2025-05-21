@@ -18,4 +18,19 @@ export function RadioGroup({ options = [], value, onChange, className = "" }) {
   )
 }
 
+export function RadioGroupItem({ value, checked, onChange, children, className = "" }) {
+  return (
+    <label className={`inline-flex items-center gap-2 ${className}`}>
+      <input
+        type="radio"
+        value={value}
+        checked={checked}
+        onChange={onChange}
+        className="h-4 w-4"
+      />
+      {children}
+    </label>
+  );
+}
+
 export default RadioGroup

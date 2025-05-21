@@ -5,3 +5,4 @@ function Skeleton({ className, ...props }) {
 }
 
 export default Skeleton
+export { Skeleton }

@@ -1,3 +1,5 @@
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader } from "@/components/ui/dialog";
+
 export function Avatar({ src, alt, className = "", children }) {
   return (
     <span

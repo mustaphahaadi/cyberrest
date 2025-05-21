@@ -35,5 +35,3 @@ export function TabsContent({ value, active, children, className = "", ...props 
   if (active !== value) return null
   return <div className={className} {...props}>{children}</div>
 }
-
-export default { Tabs, TabsList, TabsTrigger, TabsContent }

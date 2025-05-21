@@ -1,17 +1,23 @@
-import { useState } from "react"
+import * as React from "react"
+import * as SwitchPrimitives from "@radix-ui/react-switch"
+import { cn } from "@/lib/utils"
 
-export default function Switch({ checked, onChange, className = "" }) {
-  const [isChecked, setIsChecked] = useState(!!checked)
-  const handleChange = (e) => {
-    setIsChecked(e.target.checked)
-    onChange && onChange(e.target.checked)
-  }
-  return (
-    <label className={`inline-flex items-center cursor-pointer ${className}`}>
-      <input type="checkbox" className="sr-only" checked={isChecked} onChange={handleChange} />
-      <span className={`w-10 h-6 flex items-center bg-gray-200 rounded-full p-1 duration-300 ${isChecked ? "bg-blue-500" : ""}`}>
-        <span className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ${isChecked ? "translate-x-4" : ""}`}></span>
-      </span>
-    </label>
-  )
-}
+const Switch = React.forwardRef(({ className, ...props }, ref) => (
+  <SwitchPrimitives.Root
+    className={cn(
+      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      className
+    )}
+    {...props}
+    ref={ref}
+  >
+    <SwitchPrimitives.Thumb
+      className={cn(
+        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+      )}
+    />
+  </SwitchPrimitives.Root>
+))
+Switch.displayName = SwitchPrimitives.Root.displayName
+
+export { Switch }

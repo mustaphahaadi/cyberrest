@@ -27,5 +27,3 @@ export function SheetDescription({ children, className = "" }) {
 export function SheetClose({ children, onClick, className = "" }) {
   return <button className={className} onClick={onClick}>{children}</button>
 }
-
-export default { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose }

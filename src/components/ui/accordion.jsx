@@ -23,5 +23,3 @@ export function AccordionTrigger({ children, ...props }) {
 export function AccordionContent({ children, ...props }) {
   return <div {...props}>{children}</div>
 }
-
-export default { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
