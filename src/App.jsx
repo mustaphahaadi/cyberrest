@@ -54,6 +54,11 @@ import FirewallTool from "./pages/tools/FirewallTool"
 import FileIntegrityChecker from "./pages/tools/FileIntegrityChecker"
 import EncryptionTool from "./pages/tools/EncryptionTool"
 import DeviceSecurityScanner from "./pages/tools/DeviceSecurityScanner"
+import AboutPage from "./pages/AboutPage"
+import FeaturesPage from "./pages/FeaturesPage"
+import PoliciesPage from "./pages/PoliciesPage"
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"
+import CareersPage from "./pages/CareersPage"
 
 function App() {
   return (
@@ -78,6 +83,13 @@ function App() {
             <Route path="/resources" element={<ResourcesHub />} />
             <Route path="/status" element={<StatusPage />} />
             <Route path="/search" element={<SearchResultsPage />} />
+            
+            {/* New Public Routes */}
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/policies" element={<PoliciesPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/careers" element={<CareersPage />} />
 
             {/* Documentation Routes */}
             <Route path="/docs" element={<DocsPage />}>
