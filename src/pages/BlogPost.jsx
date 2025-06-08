@@ -4,7 +4,10 @@ import { useParams, Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import Badge from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Calendar, Clock, ArrowLeft, Share2, Bookmark, ThumbsUp } from "lucide-react"
+import { Calendar, Clock, ArrowLeft, Share2, Bookmark, ThumbsUp, User, Tag } from "lucide-react"
+import { motion } from "framer-motion"
+import { Navbar } from "../components/Navbar"
+import Footer from "../components/Footer"
 
 export default function BlogPost() {
   const { id } = useParams()
@@ -106,93 +109,66 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="py-16 md:py-24">
-      <div className="container px-4 md:px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-8">
-            <Link to="/blog" className="inline-flex items-center text-muted-foreground hover:text-primary">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Blog
-            </Link>
-          </div>
+    <div className="min-h-screen bg-slate-900">
+      <Navbar />
 
-          <Badge className="mb-4">{blogPost.category}</Badge>
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">{blogPost.title}</h1>
+      <main className="py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto"
+          >
+            <div className="mb-8">
+              <span className="inline-block py-1 px-3 rounded-full bg-cyan-500/10 text-cyan-400 text-sm font-medium mb-4">
+                {blogPost.category}
+              </span>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">{blogPost.title}</h1>
+              
+              <div className="flex flex-wrap items-center gap-4 text-slate-400 text-sm">
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  <span>{blogPost.author}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>{blogPost.date}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>{blogPost.readTime} min read</span>
+                </div>
+              </div>
+            </div>
 
-          <div className="flex items-center space-x-4 mb-8">
-            <img
-              src={blogPost.authorImage || "/placeholder.svg"}
-              alt={blogPost.author}
-              className="rounded-full h-10 w-10"
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="prose prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: blogPost.content }}
             />
-            <div>
-              <div className="font-medium">{blogPost.author}</div>
-              <div className="text-sm text-muted-foreground">{blogPost.authorTitle}</div>
+
+            <div className="mt-12 pt-8 border-t border-slate-800">
+              <h3 className="text-xl font-semibold text-white mb-4">Related Topics</h3>
+              <div className="flex flex-wrap gap-2">
+                {blogPost.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-sm"
+                  >
+                    <Tag className="h-3 w-3" />
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div className="flex items-center text-sm text-muted-foreground mb-6">
-            <Calendar className="h-4 w-4 mr-1" />
-            <span>{blogPost.date}</span>
-            <span className="mx-2">•</span>
-            <Clock className="h-4 w-4 mr-1" />
-            <span>{blogPost.readTime} min read</span>
-          </div>
-
-          <img src={blogPost.image || "/placeholder.svg"} alt={blogPost.title} className="w-full rounded-lg mb-8" />
-
-          <div
-            className="prose prose-lg max-w-none dark:prose-invert mb-12"
-            dangerouslySetInnerHTML={{ __html: blogPost.content }}
-          />
-
-          <div className="flex items-center justify-between border-t border-b py-4 mb-8">
-            <div className="flex space-x-2">
-              <Button variant="outline" size="sm">
-                <ThumbsUp className="mr-2 h-4 w-4" />
-                Like
-              </Button>
-              <Button variant="outline" size="sm">
-                <Share2 className="mr-2 h-4 w-4" />
-                Share
-              </Button>
-            </div>
-            <Button variant="outline" size="sm">
-              <Bookmark className="mr-2 h-4 w-4" />
-              Save
-            </Button>
-          </div>
-
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">Tags</h2>
-            <div className="flex flex-wrap gap-2">
-              {blogPost.tags.map((tag) => (
-                <Badge key={tag} variant="outline">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
-            <div className="grid gap-6 md:grid-cols-3">
-              {blogPost.relatedPosts.map((post) => (
-                <Card key={post.id}>
-                  <img src={post.image || "/placeholder.svg"} alt={post.title} className="w-full h-32 object-cover" />
-                  <CardContent className="p-4">
-                    <h3 className="font-medium mb-2 line-clamp-2">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
-                    <Button variant="link" asChild className="px-0 mt-2">
-                      <Link to={`/blog/${post.id}`}>Read More</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   )
 }
