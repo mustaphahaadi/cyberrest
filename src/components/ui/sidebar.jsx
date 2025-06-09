@@ -229,7 +229,7 @@ const Sidebar = React.forwardRef < HTMLDivElement,
   return (
       <div
         ref={ref}
-        className="group peer hidden md:block text-sidebar-foreground"
+        className="group peer md:block text-sidebar-foreground"
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
@@ -248,7 +248,7 @@ const Sidebar = React.forwardRef < HTMLDivElement,
         />
         <div
           className={cn(
-            "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
+            "duration-200 fixed inset-y-0 z-10 h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -572,28 +572,20 @@ const SidebarGroupAction = React.forwardRef < HTMLButtonElement,
 )
 SidebarGroupAction.displayName = "SidebarGroupAction"
 
-const SidebarGroupContent = React.forwardRef < HTMLDivElement,
-  React
-.ComponentProps<"div">
->((
-{
-  className,
-  ...props
-}
-, ref) => (
+const SidebarGroupContent = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ className, children, ...props }, ref) => (
   <div
-    ref=
-{
-  ref
-}
-data-sidebar = "group-content"
-className={cn("w-full text-sm", className)}
-{
-  ...props
-}
-;/>
-))
-SidebarGroupContent.displayName = "SidebarGroupContent"
+    ref={ref}
+    data-sidebar="group-content"
+    className={cn("w-full text-sm", className)}
+    {...props}
+  >
+    {children}
+  </div>
+));
+SidebarGroupContent.displayName = "SidebarGroupContent";
 
 const SidebarMenu = React.forwardRef < HTMLUListElement,
   React

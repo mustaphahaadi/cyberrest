@@ -32,15 +32,16 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
-  SidebarSeparator
+  SidebarSeparator,
+  useSidebar,
 } from "./ui/sidebar"
 
 function Sidebar() {
   const location = useLocation()
+  const { isMobile, openMobile, setOpenMobile } = useSidebar()
   const [openCategories, setOpenCategories] = useState({
     tools: true,
   })
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleCategory = (category) => {
     setOpenCategories((prev) => ({
@@ -166,7 +167,7 @@ function Sidebar() {
                     asChild
                     isActive={isActive(item.path)}
                     onClick={() => {
-                      if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close mobile sidebar on item click
+                      if (isMobile) setOpenMobile(false); // Close mobile sidebar on item click
                     }}
                   >
                     <Link to={item.path}>
@@ -189,32 +190,21 @@ function Sidebar() {
       {/* Mobile Menu Button */}
       <button
         className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-background border"
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        onClick={() => setOpenMobile(!openMobile)}
       >
-        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {openMobile ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
-      {/* Mobile Sidebar */}
-      <div
-        className={`md:hidden fixed inset-0 z-40 bg-background/80 backdrop-blur-sm transition-opacity ${
-          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setIsMobileMenuOpen(false)}
-      >
-        <div
-          className={`fixed inset-y-0 left-0 w-64 bg-background border-r transform transition-transform ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {renderSidebarContent()} {/* Render the actual sidebar content */}
-        </div>
-      </div>
-
-      {/* Desktop Sidebar */}
-      <div className="flex h-screen w-64 flex-col border-r bg-background">
-        {renderSidebarContent()} {/* Render the actual sidebar content */}
-      </div>
+      {/* Sidebar component from ui/sidebar */}
+      <Sidebar variant="sidebar" side="left">
+        <SidebarHeader className="p-6">
+          <Link to="/" className="flex items-center gap-2">
+            <Shield className="h-6 w-6" />
+            <span className="text-xl font-bold">CyberRest</span>
+          </Link>
+        </SidebarHeader>
+        {renderSidebarContent()}
+      </Sidebar>
     </>
   )
 }
