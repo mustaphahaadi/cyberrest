@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
-import Sidebar from "@/components/Sidebar"
+import MainSidebar from "@/components/MainSidebar"
 import Header from "@/components/Header"
 import ProtectedRoute from "@/components/ProtectedRoute"
 import {
@@ -88,10 +88,10 @@ export default function DashboardLayout() {
     <ProtectedRoute>
       <SidebarProvider>
         <div className="flex min-h-screen">
-          <Sidebar />
-          <div className="flex flex-col flex-1">
+          <MainSidebar />
+          <div className="flex flex-col flex-1 h-full w-full">
             <Header />
-            <main className="flex-1 p-6">
+            <main className="flex-1 p-6 h-full w-full">
               <Outlet />
             </main>
           </div>
