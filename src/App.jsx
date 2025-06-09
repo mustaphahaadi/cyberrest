@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { ThemeProvider } from "./components/theme-provider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useAuth } from "./contexts/AuthContext";
+import DashboardLayout from "./layouts/DashboardLayout";
+
+// Public pages
 import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
 import Solutions from "./pages/Solutions";
@@ -10,10 +13,9 @@ import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import SupportPage from "./pages/SupportPage";
 import NotFound from "./pages/NotFound";
-import Dashboard from "./pages/Dashboard";
-import ProfilePage from "./pages/ProfilePage";
 import AboutPage from "./pages/AboutPage";
 import Blog from "./pages/Blog";
 import PricingPage from "./pages/PricingPage";
@@ -27,6 +29,10 @@ import DeveloperPortal from "./pages/DeveloperPortal";
 import StatusPage from "./pages/StatusPage";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Changelog from "./pages/Changelog";
+
+// Dashboard pages
+import Dashboard from "./pages/Dashboard";
+import ProfilePage from "./pages/ProfilePage";
 
 // Tool imports
 import PasswordAnalyzer from "./pages/tools/PasswordAnalyzer";
@@ -50,7 +56,11 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
   }
   
   if (!user) {
@@ -58,6 +68,17 @@ function ProtectedRoute({ children }) {
   }
   
   return children;
+}
+
+// Dashboard wrapper component
+function DashboardWrapper({ children }) {
+  return (
+    <ProtectedRoute>
+      <DashboardLayout>
+        {children}
+      </DashboardLayout>
+    </ProtectedRoute>
+  );
 }
 
 function App() {
@@ -76,6 +97,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/features" element={<FeaturesPage />} />
@@ -90,26 +112,26 @@ function App() {
             <Route path="/knowledge-base" element={<KnowledgeBase />} />
             <Route path="/changelog" element={<Changelog />} />
             
-            {/* Protected Routes */}
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            {/* Protected Dashboard Routes */}
+            <Route path="/dashboard" element={<DashboardWrapper><Dashboard /></DashboardWrapper>} />
+            <Route path="/profile" element={<DashboardWrapper><ProfilePage /></DashboardWrapper>} />
             
             {/* Tool Routes */}
-            <Route path="/dashboard/tools/password-analyzer" element={<ProtectedRoute><PasswordAnalyzer /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/password-generator" element={<ProtectedRoute><PasswordGenerator /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/data-breach-scanner" element={<ProtectedRoute><DataBreachScanner /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/phishing-detector" element={<ProtectedRoute><PhishingDetector /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/network-scanner" element={<ProtectedRoute><NetworkScanner /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/encryption-tool" element={<ProtectedRoute><EncryptionTool /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/file-integrity-checker" element={<ProtectedRoute><FileIntegrityChecker /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/vulnerability-assessment" element={<ProtectedRoute><VulnerabilityAssessment /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/security-news" element={<ProtectedRoute><SecurityNews /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/two-factor-manager" element={<ProtectedRoute><TwoFactorManager /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/secure-notes" element={<ProtectedRoute><SecureNotes /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/vpn-manager" element={<ProtectedRoute><VpnManager /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/firewall-tool" element={<ProtectedRoute><FirewallTool /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/malware-scanner" element={<ProtectedRoute><MalwareScanner /></ProtectedRoute>} />
-            <Route path="/dashboard/tools/security-audit" element={<ProtectedRoute><SecurityAudit /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/password-analyzer" element={<DashboardWrapper><PasswordAnalyzer /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/password-generator" element={<DashboardWrapper><PasswordGenerator /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/data-breach-scanner" element={<DashboardWrapper><DataBreachScanner /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/phishing-detector" element={<DashboardWrapper><PhishingDetector /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/network-scanner" element={<DashboardWrapper><NetworkScanner /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/encryption-tool" element={<DashboardWrapper><EncryptionTool /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/file-integrity-checker" element={<DashboardWrapper><FileIntegrityChecker /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/vulnerability-assessment" element={<DashboardWrapper><VulnerabilityAssessment /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/security-news" element={<DashboardWrapper><SecurityNews /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/two-factor-manager" element={<DashboardWrapper><TwoFactorManager /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/secure-notes" element={<DashboardWrapper><SecureNotes /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/vpn-manager" element={<DashboardWrapper><VpnManager /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/firewall-tool" element={<DashboardWrapper><FirewallTool /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/malware-scanner" element={<DashboardWrapper><MalwareScanner /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/security-audit" element={<DashboardWrapper><SecurityAudit /></DashboardWrapper>} />
             
             {/* Catch all route */}
             <Route path="*" element={<NotFound />} />
@@ -121,6 +143,3 @@ function App() {
 }
 
 export default App;
-
-
-
