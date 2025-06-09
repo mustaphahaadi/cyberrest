@@ -3,9 +3,9 @@
 import { useState } from "react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
-import Sidebar from "../components/Sidebar"
-import Header from "../components/Header"
-import ProtectedRoute from "../components/ProtectedRoute"
+import Sidebar from "@/components/Sidebar"
+import Header from "@/components/Header"
+import ProtectedRoute from "@/components/ProtectedRoute"
 import {
   Key,
   Lock,
@@ -26,7 +26,7 @@ import {
   GraduationCap,
   FileCheck,
 } from "lucide-react"
-import { SidebarProvider } from "../components/ui/sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
 export default function DashboardLayout() {
   const { user, logout, loading } = useAuth()

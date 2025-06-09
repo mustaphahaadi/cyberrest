@@ -34,9 +34,9 @@ import {
   SidebarGroupContent,
   SidebarSeparator,
   useSidebar,
-} from "./ui/sidebar"
+} from "@/components/ui/sidebar"
 
-function Sidebar() {
+function MainSidebar() {
   const location = useLocation()
   const { isMobile, openMobile, setOpenMobile } = useSidebar()
   const [openCategories, setOpenCategories] = useState({
@@ -209,4 +209,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
+export default MainSidebar
