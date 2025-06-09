@@ -115,10 +115,6 @@ The application features a responsive sidebar component with the following capab
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
-
-For support, email support@cyberrest.com or join our Slack channel.
-
 ## Acknowledgments
 
 - Thanks to all contributors who have helped shape this project
