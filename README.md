@@ -24,7 +24,7 @@ A comprehensive cybersecurity platform built with React and Vite, featuring a mo
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/cyberrest.git
+   git clone https://github.com/mustaphahaadi/cyberrest.git
    cd cyberrest
    ```
 
