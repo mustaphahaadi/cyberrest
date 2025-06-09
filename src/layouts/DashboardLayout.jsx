@@ -26,6 +26,7 @@ import {
   GraduationCap,
   FileCheck,
 } from "lucide-react"
+import { SidebarProvider } from "../components/ui/sidebar"
 
 export default function DashboardLayout() {
   const { user, logout, loading } = useAuth()
@@ -53,20 +54,20 @@ export default function DashboardLayout() {
     { name: "Data Breach Scanner", path: "/dashboard/tools/data-breach-scanner", icon: Search },
     { name: "Dark Web Monitor", path: "/dashboard/tools/dark-web-monitor", icon: Eye },
     { name: "Phishing Detector", path: "/dashboard/tools/phishing-detector", icon: Globe },
-    { name: "Network Scanner", path: "/tools/network-scanner", icon: Wifi },
-    { name: "Device Security Scanner", path: "/tools/device-security-scanner", icon: Scan },
-    { name: "Encryption Tool", path: "/tools/encryption-tool", icon: FileText },
-    { name: "File Integrity Checker", path: "/tools/file-integrity-checker", icon: Fingerprint },
-    { name: "Vulnerability Assessment", path: "/tools/vulnerability-assessment", icon: AlertTriangle },
-    { name: "Security Training", path: "/tools/security-training", icon: GraduationCap },
-    { name: "Compliance Checker", path: "/tools/compliance-checker", icon: FileCheck },
-    { name: "Security News", path: "/tools/security-news", icon: Newspaper },
-    { name: "Two-Factor Manager", path: "/tools/two-factor-manager", icon: Smartphone },
-    { name: "Secure Notes", path: "/tools/secure-notes", icon: FileIcon },
-    { name: "VPN Manager", path: "/tools/vpn-manager", icon: ShieldCheck },
-    { name: "Firewall Tool", path: "/tools/firewall-tool", icon: ShieldAlert },
-    { name: "Malware Scanner", path: "/tools/malware-scanner", icon: Scan },
-    { name: "Security Audit", path: "/tools/security-audit", icon: ClipboardCheck },
+    { name: "Network Scanner", path: "/dashboard/tools/network-scanner", icon: Wifi },
+    { name: "Device Security Scanner", path: "/dashboard/tools/device-security-scanner", icon: Scan },
+    { name: "Encryption Tool", path: "/dashboard/tools/encryption-tool", icon: FileText },
+    { name: "File Integrity Checker", path: "/dashboard/tools/file-integrity-checker", icon: Fingerprint },
+    { name: "Vulnerability Assessment", path: "/dashboard/tools/vulnerability-assessment", icon: AlertTriangle },
+    { name: "Security Training", path: "/dashboard/tools/security-training", icon: GraduationCap },
+    { name: "Compliance Checker", path: "/dashboard/tools/compliance-checker", icon: FileCheck },
+    { name: "Security News", path: "/dashboard/tools/security-news", icon: Newspaper },
+    { name: "Two-Factor Manager", path: "/dashboard/tools/two-factor-manager", icon: Smartphone },
+    { name: "Secure Notes", path: "/dashboard/tools/secure-notes", icon: FileIcon },
+    { name: "VPN Manager", path: "/dashboard/tools/vpn-manager", icon: ShieldCheck },
+    { name: "Firewall Tool", path: "/dashboard/tools/firewall-tool", icon: ShieldAlert },
+    { name: "Malware Scanner", path: "/dashboard/tools/malware-scanner", icon: Scan },
+    { name: "Security Audit", path: "/dashboard/tools/security-audit", icon: ClipboardCheck },
   ]
 
   if (loading) {
@@ -85,15 +86,17 @@ export default function DashboardLayout() {
 
   return (
     <ProtectedRoute>
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="flex flex-col flex-1">
-          <Header />
-          <main className="flex-1 p-6">
-            <Outlet />
-          </main>
+      <SidebarProvider>
+        <div className="flex min-h-screen">
+          <Sidebar />
+          <div className="flex flex-col flex-1">
+            <Header />
+            <main className="flex-1 p-6">
+              <Outlet />
+            </main>
+          </div>
         </div>
-      </div>
+      </SidebarProvider>
     </ProtectedRoute>
   )
 }

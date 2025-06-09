@@ -3,9 +3,56 @@
 import { Shield, AlertTriangle, CheckCircle, Wifi, Lock, Search } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/Card"
 import { useAuth } from "../contexts/AuthContext"
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Dashboard() {
   const { user } = useAuth()
+  const navigate = useNavigate()
+
+  const [passwordVulnerability, setPasswordVulnerability] = useState(true)
+  const [dataBreachDetected, setDataBreachDetected] = useState(true)
+  const [networkSecure, setNetworkSecure] = useState(true)
+  const [securityScore, setSecurityScore] = useState(78)
+
+  useEffect(() => {
+    // This is a placeholder for dynamic score calculation based on real data.
+    // For now, we'll keep it static as per the image.
+    // In a real application, you would fetch actual security statuses
+    // and update the score accordingly.
+
+    // Example: If password vulnerability is fixed, increase score
+    // let calculatedScore = 100;
+    // if (passwordVulnerability) calculatedScore -= 22; // Example deduction
+    // if (dataBreachDetected) calculatedScore -= 25; // Example deduction
+    // setSecurityScore(calculatedScore);
+
+  }, [passwordVulnerability, dataBreachDetected, networkSecure])
+
+  const handleFixPasswordVulnerability = () => {
+    navigate("/dashboard/tools/password-analyzer")
+  }
+
+  const handleViewDataBreachDetails = () => {
+    navigate("/dashboard/tools/data-breach-scanner")
+  }
+
+  const handleViewNetworkDetails = () => {
+    // Navigate to Network Scanner tool or similar
+    navigate("/dashboard/tools/network-scanner")
+  }
+
+  const getScoreColor = (score) => {
+    if (score < 40) return "text-red-500"
+    if (score < 70) return "text-yellow-500"
+    return "text-primary"
+  }
+
+  const getProgressColor = (score) => {
+    if (score < 40) return "border-red-500"
+    if (score < 70) return "border-yellow-500"
+    return "border-primary"
+  }
 
   return (
     <div className="space-y-8">
@@ -25,12 +72,16 @@ export default function Dashboard() {
             <div className="flex items-center gap-2">
               <Shield className="h-8 w-8 text-primary" />
               <div>
-                <p className="text-2xl font-bold">78/100</p>
-                <p className="text-xs text-muted-foreground">Good</p>
+                <p className="text-2xl font-bold">{securityScore}/100</p>
+                <p className="text-xs text-muted-foreground">
+                  {securityScore < 40 ? "Weak" : securityScore < 70 ? "Fair" : "Good"}
+                </p>
               </div>
             </div>
-            <div className="h-16 w-16 rounded-full border-8 border-primary flex items-center justify-center">
-              <span className="text-xl font-bold">78%</span>
+            <div
+              className={`h-16 w-16 rounded-full border-8 ${getProgressColor(securityScore)} flex items-center justify-center`}
+            >
+              <span className="text-xl font-bold">{securityScore}%</span>
             </div>
           </div>
         </CardContent>
@@ -43,48 +94,62 @@ export default function Dashboard() {
       <div>
         <h3 className="text-xl font-semibold mb-4">Security Alerts</h3>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="border-l-4 border-l-yellow-500">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                Password Vulnerability
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">Your password for "example@email.com" is weak and should be updated.</p>
-            </CardContent>
-            <CardFooter>
-              <button className="text-xs text-primary hover:underline">Fix Now</button>
-            </CardFooter>
-          </Card>
-          <Card className="border-l-4 border-l-red-500">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-red-500" />
-                Data Breach Detected
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">Your email was found in a recent data breach. Change your password immediately.</p>
-            </CardContent>
-            <CardFooter>
-              <button className="text-xs text-primary hover:underline">View Details</button>
-            </CardFooter>
-          </Card>
-          <Card className="border-l-4 border-l-green-500">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                Network Secure
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">Your home network is properly secured with WPA2 encryption.</p>
-            </CardContent>
-            <CardFooter>
-              <button className="text-xs text-primary hover:underline">View Details</button>
-            </CardFooter>
-          </Card>
+          {passwordVulnerability && (
+            <Card className="border-l-4 border-l-yellow-500">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                  Password Vulnerability
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">Your password for "example@email.com" is weak and should be updated.</p>
+              </CardContent>
+              <CardFooter>
+                <button onClick={handleFixPasswordVulnerability} className="text-xs text-primary hover:underline">
+                  Fix Now
+                </button>
+              </CardFooter>
+            </Card>
+          )}
+
+          {dataBreachDetected && (
+            <Card className="border-l-4 border-l-red-500">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4 text-red-500" />
+                  Data Breach Detected
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">Your email was found in a recent data breach. Change your password immediately.</p>
+              </CardContent>
+              <CardFooter>
+                <button onClick={handleViewDataBreachDetails} className="text-xs text-primary hover:underline">
+                  View Details
+                </button>
+              </CardFooter>
+            </Card>
+          )}
+
+          {networkSecure && (
+            <Card className="border-l-4 border-l-green-500">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  Network Secure
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">Your home network is properly secured with WPA2 encryption.</p>
+              </CardContent>
+              <CardFooter>
+                <button onClick={handleViewNetworkDetails} className="text-xs text-primary hover:underline">
+                  View Details
+                </button>
+              </CardFooter>
+            </Card>
+          )}
         </div>
       </div>
 
@@ -92,28 +157,40 @@ export default function Dashboard() {
       <div>
         <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="hover:bg-accent cursor-pointer transition-colors">
+          <Card
+            className="hover:bg-accent cursor-pointer transition-colors"
+            onClick={() => navigate("/dashboard/tools/password-analyzer")}
+          >
             <CardContent className="p-6 flex flex-col items-center text-center">
               <Lock className="h-8 w-8 mb-2" />
               <h4 className="font-medium">Password Check</h4>
               <p className="text-xs text-muted-foreground mt-1">Analyze your passwords</p>
             </CardContent>
           </Card>
-          <Card className="hover:bg-accent cursor-pointer transition-colors">
+          <Card
+            className="hover:bg-accent cursor-pointer transition-colors"
+            onClick={() => navigate("/dashboard/tools/data-breach-scanner")}
+          >
             <CardContent className="p-6 flex flex-col items-center text-center">
               <Search className="h-8 w-8 mb-2" />
               <h4 className="font-medium">Data Breach Scan</h4>
               <p className="text-xs text-muted-foreground mt-1">Check for compromised accounts</p>
             </CardContent>
           </Card>
-          <Card className="hover:bg-accent cursor-pointer transition-colors">
+          <Card
+            className="hover:bg-accent cursor-pointer transition-colors"
+            onClick={() => navigate("/dashboard/tools/network-scanner")}
+          >
             <CardContent className="p-6 flex flex-col items-center text-center">
               <Wifi className="h-8 w-8 mb-2" />
               <h4 className="font-medium">Network Scan</h4>
               <p className="text-xs text-muted-foreground mt-1">Scan your network for vulnerabilities</p>
             </CardContent>
           </Card>
-          <Card className="hover:bg-accent cursor-pointer transition-colors">
+          <Card
+            className="hover:bg-accent cursor-pointer transition-colors"
+            onClick={() => navigate("/dashboard/tools/security-audit")}
+          >
             <CardContent className="p-6 flex flex-col items-center text-center">
               <Shield className="h-8 w-8 mb-2" />
               <h4 className="font-medium">Security Audit</h4>

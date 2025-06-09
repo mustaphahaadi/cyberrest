@@ -31,6 +31,15 @@ export function Header() {
           <Link to="/pricing" className="text-sm font-medium hover:underline">
             Pricing
           </Link>
+          <Link to="/products" className="text-sm font-medium hover:underline">
+            Products
+          </Link>
+          <Link to="/solutions" className="text-sm font-medium hover:underline">
+            Solutions
+          </Link>
+          <Link to="/resources" className="text-sm font-medium hover:underline">
+            Resources
+          </Link>
           <Link to="/about" className="text-sm font-medium hover:underline">
             About
           </Link>
@@ -46,6 +55,9 @@ export function Header() {
               <Link to="/dashboard" className="text-sm font-medium hover:underline">
                 Dashboard
               </Link>
+              <Link to="/profile" className="text-sm font-medium hover:underline">
+                Profile
+              </Link>
               <button onClick={logout} className="text-sm font-medium hover:underline">
                 Logout
               </button>
@@ -56,7 +68,7 @@ export function Header() {
                 Login
               </Link>
               <Link
-                to="/register"
+                to="/signup"
                 className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
               >
                 Sign Up
@@ -84,6 +96,15 @@ export function Header() {
             <Link to="/pricing" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
               Pricing
             </Link>
+            <Link to="/products" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
+              Products
+            </Link>
+            <Link to="/solutions" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
+              Solutions
+            </Link>
+            <Link to="/resources" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
+              Resources
+            </Link>
             <Link to="/about" className="text-sm font-medium hover:underline" onClick={() => setIsMenuOpen(false)}>
               About
             </Link>
@@ -91,13 +112,31 @@ export function Header() {
               Contact
             </Link>
             {user && (
-              <Link
-                to="/dashboard"
-                className="text-sm font-medium hover:underline"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-sm font-medium hover:underline"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/profile"
+                  className="text-sm font-medium hover:underline"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    logout()
+                    setIsMenuOpen(false)
+                  }}
+                  className="text-sm font-medium hover:underline text-left"
+                >
+                  Logout
+                </button>
+              </>
             )}
           </nav>
         </div>

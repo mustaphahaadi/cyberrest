@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./components/theme-provider";
+import { AuthProvider } from "./contexts/AuthContext";
+import { useAuth } from "./contexts/AuthContext";
 import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
 import Solutions from "./pages/Solutions";
@@ -10,27 +12,115 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SupportPage from "./pages/SupportPage";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
+import ProfilePage from "./pages/ProfilePage";
+import AboutPage from "./pages/AboutPage";
+import Blog from "./pages/Blog";
+import PricingPage from "./pages/PricingPage";
+import FeaturesPage from "./pages/FeaturesPage";
+import CareersPage from "./pages/CareersPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import PoliciesPage from "./pages/PoliciesPage";
+import DocsPage from "./pages/DocsPage";
+import ApiReference from "./pages/ApiReference";
+import DeveloperPortal from "./pages/DeveloperPortal";
+import StatusPage from "./pages/StatusPage";
+import KnowledgeBase from "./pages/KnowledgeBase";
+import Changelog from "./pages/Changelog";
 
-export default function App() {
+// Tool imports
+import PasswordAnalyzer from "./pages/tools/PasswordAnalyzer";
+import PasswordGenerator from "./pages/tools/PasswordGenerator";
+import DataBreachScanner from "./pages/tools/DataBreachScanner";
+import PhishingDetector from "./pages/tools/PhishingDetector";
+import NetworkScanner from "./pages/tools/NetworkScanner";
+import EncryptionTool from "./pages/tools/EncryptionTool";
+import FileIntegrityChecker from "./pages/tools/FileIntegrityChecker";
+import VulnerabilityAssessment from "./pages/tools/VulnerabilityAssessment";
+import SecurityNews from "./pages/tools/SecurityNews";
+import TwoFactorManager from "./pages/tools/TwoFactorManager";
+import SecureNotes from "./pages/tools/SecureNotes";
+import VpnManager from "./pages/tools/VpnManager";
+import FirewallTool from "./pages/tools/FirewallTool";
+import MalwareScanner from "./pages/tools/MalwareScanner";
+import SecurityAudit from "./pages/tools/SecurityAudit";
+
+// Protected Route component
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+  
+  return children;
+}
+
+function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <Router>
+      <AuthProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/solutions" element={<Solutions />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/careers" element={<CareersPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/policies" element={<PoliciesPage />} />
+            <Route path="/docs" element={<DocsPage />} />
+            <Route path="/api-reference" element={<ApiReference />} />
+            <Route path="/developer" element={<DeveloperPortal />} />
+            <Route path="/status" element={<StatusPage />} />
+            <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/changelog" element={<Changelog />} />
+            
+            {/* Protected Routes */}
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            
+            {/* Tool Routes */}
+            <Route path="/dashboard/tools/password-analyzer" element={<ProtectedRoute><PasswordAnalyzer /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/password-generator" element={<ProtectedRoute><PasswordGenerator /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/data-breach-scanner" element={<ProtectedRoute><DataBreachScanner /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/phishing-detector" element={<ProtectedRoute><PhishingDetector /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/network-scanner" element={<ProtectedRoute><NetworkScanner /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/encryption-tool" element={<ProtectedRoute><EncryptionTool /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/file-integrity-checker" element={<ProtectedRoute><FileIntegrityChecker /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/vulnerability-assessment" element={<ProtectedRoute><VulnerabilityAssessment /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/security-news" element={<ProtectedRoute><SecurityNews /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/two-factor-manager" element={<ProtectedRoute><TwoFactorManager /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/secure-notes" element={<ProtectedRoute><SecureNotes /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/vpn-manager" element={<ProtectedRoute><VpnManager /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/firewall-tool" element={<ProtectedRoute><FirewallTool /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/malware-scanner" element={<ProtectedRoute><MalwareScanner /></ProtectedRoute>} />
+            <Route path="/dashboard/tools/security-audit" element={<ProtectedRoute><SecurityAudit /></ProtectedRoute>} />
+            
+            {/* Catch all route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ThemeProvider>
+      </AuthProvider>
+    </Router>
   );
 }
+
+export default App;
 
 
 

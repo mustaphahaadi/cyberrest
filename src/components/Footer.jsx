@@ -30,13 +30,58 @@ function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/products" className="text-sm text-muted-foreground hover:text-foreground">
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link to="/solutions" className="text-sm text-muted-foreground hover:text-foreground">
+                  Solutions
+                </Link>
+              </li>
+              <li>
                 <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground">
                   Documentation
                 </Link>
               </li>
               <li>
+                <Link to="/api-reference" className="text-sm text-muted-foreground hover:text-foreground">
+                  API Reference
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Resources</h3>
+            <ul className="mt-2 space-y-2">
+              <li>
+                <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link to="/resources" className="text-sm text-muted-foreground hover:text-foreground">
+                  Resources
+                </Link>
+              </li>
+              <li>
+                <Link to="/knowledge-base" className="text-sm text-muted-foreground hover:text-foreground">
+                  Knowledge Base
+                </Link>
+              </li>
+              <li>
                 <Link to="/changelog" className="text-sm text-muted-foreground hover:text-foreground">
                   Changelog
+                </Link>
+              </li>
+              <li>
+                <Link to="/status" className="text-sm text-muted-foreground hover:text-foreground">
+                  Status
+                </Link>
+              </li>
+              <li>
+                <Link to="/developer" className="text-sm text-muted-foreground hover:text-foreground">
+                  Developer Portal
                 </Link>
               </li>
             </ul>
@@ -50,11 +95,6 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground">
-                  Blog
-                </Link>
-              </li>
-              <li>
                 <Link to="/careers" className="text-sm text-muted-foreground hover:text-foreground">
                   Careers
                 </Link>
@@ -64,24 +104,19 @@ function Footer() {
                   Contact
                 </Link>
               </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold">Legal</h3>
-            <ul className="mt-2 space-y-2">
+              <li>
+                <Link to="/support" className="text-sm text-muted-foreground hover:text-foreground">
+                  Support
+                </Link>
+              </li>
               <li>
                 <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground">
+                <Link to="/policies" className="text-sm text-muted-foreground hover:text-foreground">
                   Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/cookies" className="text-sm text-muted-foreground hover:text-foreground">
-                  Cookie Policy
                 </Link>
               </li>
             </ul>

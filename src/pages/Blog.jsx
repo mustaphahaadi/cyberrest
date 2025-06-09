@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Navbar } from "../components/Navbar"
+import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { Calendar, Clock, User, Search } from "lucide-react"
 
