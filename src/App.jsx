@@ -50,6 +50,7 @@ import VpnManager from "./pages/tools/VpnManager";
 import FirewallTool from "./pages/tools/FirewallTool";
 import MalwareScanner from "./pages/tools/MalwareScanner";
 import SecurityAudit from "./pages/tools/SecurityAudit";
+import ToolsPage from "./pages/tools/ToolsPage"
 
 // Protected Route component
 function ProtectedRoute({ children }) {
@@ -115,6 +116,7 @@ function App() {
             {/* Protected Dashboard Routes */}
             <Route path="/dashboard" element={<DashboardWrapper><Dashboard /></DashboardWrapper>} />
             <Route path="/profile" element={<DashboardWrapper><ProfilePage /></DashboardWrapper>} />
+            <Route path="/dashboard/tools" element={<DashboardWrapper><ToolsPage /></DashboardWrapper>} />
             
             {/* Tool Routes */}
             <Route path="/dashboard/tools/password-analyzer" element={<DashboardWrapper><PasswordAnalyzer /></DashboardWrapper>} />
