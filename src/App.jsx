@@ -35,6 +35,7 @@ import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/ProfilePage";
 
 // Tool imports
+import ToolsPage from "./pages/tools/ToolsPage";
 import PasswordAnalyzer from "./pages/tools/PasswordAnalyzer";
 import PasswordGenerator from "./pages/tools/PasswordGenerator";
 import DataBreachScanner from "./pages/tools/DataBreachScanner";
@@ -50,7 +51,6 @@ import VpnManager from "./pages/tools/VpnManager";
 import FirewallTool from "./pages/tools/FirewallTool";
 import MalwareScanner from "./pages/tools/MalwareScanner";
 import SecurityAudit from "./pages/tools/SecurityAudit";
-import ToolsPage from "./pages/tools/ToolsPage"
 
 // Protected Route component
 function ProtectedRoute({ children }) {

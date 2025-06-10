@@ -3,8 +3,8 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
-
+import { PanelLeft, Shield, Lock, Search, Wifi, FileCheck, Bug, Newspaper, Smartphone, StickyNote, Globe, ShieldAlert, AlertOctagon, ShieldCheck } from "lucide-react"
+import { useLocation, Link } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -133,28 +133,139 @@ const SidebarProvider = React.forwardRef((props, ref) => {
 })
 SidebarProvider.displayName = "SidebarProvider"
 
+const navigationItems = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: Shield
+  },
+  {
+    title: "Tools",
+    href: "/dashboard/tools",
+    icon: ShieldCheck,
+    children: [
+      {
+        title: "Password Analyzer",
+        href: "/dashboard/tools/password-analyzer",
+        icon: Lock
+      },
+      {
+        title: "Password Generator",
+        href: "/dashboard/tools/password-generator",
+        icon: Lock
+      },
+      {
+        title: "Data Breach Scanner",
+        href: "/dashboard/tools/data-breach-scanner",
+        icon: Search
+      },
+      {
+        title: "Phishing Detector",
+        href: "/dashboard/tools/phishing-detector",
+        icon: AlertOctagon
+      },
+      {
+        title: "Network Scanner",
+        href: "/dashboard/tools/network-scanner",
+        icon: Wifi
+      },
+      {
+        title: "Encryption Tool",
+        href: "/dashboard/tools/encryption-tool",
+        icon: Lock
+      },
+      {
+        title: "File Integrity Checker",
+        href: "/dashboard/tools/file-integrity-checker",
+        icon: FileCheck
+      },
+      {
+        title: "Vulnerability Assessment",
+        href: "/dashboard/tools/vulnerability-assessment",
+        icon: Bug
+      },
+      {
+        title: "Security News",
+        href: "/dashboard/tools/security-news",
+        icon: Newspaper
+      },
+      {
+        title: "Two-Factor Manager",
+        href: "/dashboard/tools/two-factor-manager",
+        icon: Smartphone
+      },
+      {
+        title: "Secure Notes",
+        href: "/dashboard/tools/secure-notes",
+        icon: StickyNote
+      },
+      {
+        title: "VPN Manager",
+        href: "/dashboard/tools/vpn-manager",
+        icon: Globe
+      },
+      {
+        title: "Firewall Tool",
+        href: "/dashboard/tools/firewall-tool",
+        icon: ShieldAlert
+      },
+      {
+        title: "Malware Scanner",
+        href: "/dashboard/tools/malware-scanner",
+        icon: AlertOctagon
+      },
+      {
+        title: "Security Audit",
+        href: "/dashboard/tools/security-audit",
+        icon: ShieldCheck
+      }
+    ]
+  }
+]
+
 function Sidebar() {
   const location = useLocation()
   const { isMobile, openMobile, setOpenMobile } = useSidebar()
 
-  if (collapsible === "none") {
+  const renderNavItem = (item) => {
+    const isActive = location.pathname === item.href
+    const Icon = item.icon
+
     return (
-      <div
-        className={cn(
-          "flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground",
-          className
-        )}
-        ref={ref}
-        {...rest}
-      >
-        {children}
-      </div>
+      <Tooltip key={item.href}>
+        <TooltipTrigger asChild>
+          <Link
+            to={item.href}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent",
+              isActive && "bg-accent"
+            )}
+          >
+            <Icon className="h-4 w-4" />
+            <span>{item.title}</span>
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent side="right">{item.title}</TooltipContent>
+      </Tooltip>
     )
+  }
+
+  const renderNavItems = () => {
+    return navigationItems.map((item) => (
+      <div key={item.href} className="space-y-1">
+        {renderNavItem(item)}
+        {item.children && (
+          <div className="ml-4 space-y-1">
+            {item.children.map((child) => renderNavItem(child))}
+          </div>
+        )}
+      </div>
+    ))
   }
 
   if (isMobile) {
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...rest}>
+      <Sheet open={openMobile} onOpenChange={setOpenMobile}>
         <SheetContent
           data-sidebar="sidebar"
           data-mobile="true"
@@ -162,44 +273,28 @@ function Sidebar() {
           style={{
             "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
           }}
-          side={side}
+          side="left"
         >
-          <div className="flex h-full w-full flex-col">{children}</div>
+          <div className="flex h-full w-full flex-col">
+            <div className="flex-1 overflow-auto py-2">
+              <nav className="grid gap-1 px-2">
+                {renderNavItems()}
+              </nav>
+            </div>
+          </div>
         </SheetContent>
       </Sheet>
     )
   }
 
   return (
-    <div
-      ref={ref}
-      className="group peer md:block text-sidebar-foreground"
-      data-state={state}
-      data-collapsible={state === "collapsed" ? collapsible : ""}
-      data-variant={variant}
-      data-side={side}
-    >
-      <div
-        className={cn(
-          "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
-          "group-data-[collapsible=offcanvas]:w-0",
-          "group-data-[side=right]:rotate-180",
-          variant === "floating" || variant === "inset"
-            ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]\""
-            : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
-        )}
-      />
-      <div
-        className={cn(
-          "fixed top-0 z-30 flex h-svh w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-linear",
-          "group-data-[collapsible=offcanvas]:w-0",
-          "group-data-[side=right]:right-0",
-          variant === "floating" || variant === "inset"
-            ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]\""
-            : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
-        )}
-      >
-        {children}
+    <div className="group peer md:block text-sidebar-foreground">
+      <div className="fixed top-0 z-30 flex h-svh w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground">
+        <div className="flex-1 overflow-auto py-2">
+          <nav className="grid gap-1 px-2">
+            {renderNavItems()}
+          </nav>
+        </div>
       </div>
     </div>
   )
