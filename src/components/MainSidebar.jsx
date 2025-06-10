@@ -1,10 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
-import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import {
   Shield,
@@ -21,10 +17,8 @@ import {
   ShieldAlert,
   Scan,
   Settings,
-  ChevronDown,
-  ChevronRight,
-  Menu,
-  X,
+  User,
+  Home,
 } from "lucide-react"
 import {
   Sidebar,
@@ -37,29 +31,10 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarSeparator,
-  useSidebar,
 } from "@/components/ui/sidebar"
-
-const SIDEBAR_COOKIE_NAME = "sidebar:state"
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = "16rem"
-const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "3rem"
-const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 function MainSidebar() {
   const location = useLocation()
-  const { isMobile, openMobile, setOpenMobile } = useSidebar()
-  const [openCategories, setOpenCategories] = useState({
-    tools: true,
-  })
-
-  const toggleCategory = (category) => {
-    setOpenCategories((prev) => ({
-      ...prev,
-      [category]: !prev[category],
-    }))
-  }
 
   const isActive = (path) => {
     return location.pathname === path
@@ -72,17 +47,17 @@ function MainSidebar() {
         {
           name: "Dashboard",
           path: "/dashboard",
-          icon: <Shield className="h-5 w-5" />,
+          icon: <Home className="h-5 w-5" />,
         },
         {
           name: "Profile",
-          path: "/dashboard/profile",
-          icon: <Settings className="h-5 w-5" />,
+          path: "/profile",
+          icon: <User className="h-5 w-5" />,
         },
       ],
     },
     {
-      category: "Tools",
+      category: "Security Tools",
       items: [
         {
           name: "Password Analyzer",
@@ -163,60 +138,42 @@ function MainSidebar() {
     },
   ]
 
-  const renderSidebarContent = () => (
-    <SidebarContent className="flex-1 py-4">
-      {sidebarItems.map((categoryGroup, index) => (
-        <SidebarGroup key={index}>
-          <SidebarGroupLabel className="px-4 py-2 text-xs font-semibold uppercase text-muted-foreground">
-            {categoryGroup.category}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {categoryGroup.items.map((item) => (
-                <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.path)}
-                    onClick={() => {
-                      if (isMobile) setOpenMobile(false); // Close mobile sidebar on item click
-                    }}
-                  >
-                    <Link to={item.path}>
-                      {item.icon}
-                      <span>{item.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-          {index < sidebarItems.length - 1 && <SidebarSeparator className="my-2" />}
-        </SidebarGroup>
-      ))}
-    </SidebarContent>
-  );
-
   return (
-    <>
-      {/* Mobile Menu Button */}
-      <button
-        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-background border"
-        onClick={() => setOpenMobile(!openMobile)}
-      >
-        {openMobile ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </button>
-
-      {/* Sidebar component from ui/sidebar */}
-      <Sidebar variant="sidebar" side="left">
-        <SidebarHeader className="p-6">
-          <Link to="/" className="flex items-center gap-2">
-            <Shield className="h-6 w-6" />
-            <span className="text-xl font-bold">CyberRest</span>
-          </Link>
-        </SidebarHeader>
-        {renderSidebarContent()}
-      </Sidebar>
-    </>
+    <Sidebar variant="sidebar" side="left">
+      <SidebarHeader className="p-6">
+        <Link to="/" className="flex items-center gap-2">
+          <Shield className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold">CyberRest</span>
+        </Link>
+      </SidebarHeader>
+      <SidebarContent className="flex-1 py-4">
+        {sidebarItems.map((categoryGroup, index) => (
+          <SidebarGroup key={index}>
+            <SidebarGroupLabel className="px-4 py-2 text-xs font-semibold uppercase text-muted-foreground">
+              {categoryGroup.category}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {categoryGroup.items.map((item) => (
+                  <SidebarMenuItem key={item.path}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive(item.path)}
+                    >
+                      <Link to={item.path} className="flex items-center gap-3 px-4 py-2">
+                        {item.icon}
+                        <span>{item.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+            {index < sidebarItems.length - 1 && <SidebarSeparator className="my-2" />}
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+    </Sidebar>
   )
 }
 

@@ -4,99 +4,71 @@ import { useState } from "react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
 import MainSidebar from "@/components/MainSidebar"
-import Header from "@/components/Header"
-import ProtectedRoute from "@/components/ProtectedRoute"
-import {
-  Key,
-  Lock,
-  Search,
-  Globe,
-  FileText,
-  ShieldCheck,
-  Fingerprint,
-  AlertTriangle,
-  Newspaper,
-  Smartphone,
-  FileIcon,
-  Wifi,
-  ShieldAlert,
-  Scan,
-  ClipboardCheck,
-  Eye,
-  GraduationCap,
-  FileCheck,
-} from "lucide-react"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { ModeToggle } from "@/components/ModeToggle"
+import { Button } from "@/components/ui/button"
+import { User, LogOut } from "lucide-react"
 
 export default function DashboardLayout() {
   const { user, logout, loading } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleLogout = () => {
     logout()
     navigate("/login")
   }
 
-  const getInitials = (name) => {
-    if (!name) return "U"
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-  }
-
-  const tools = [
-    { name: "Password Analyzer", path: "/dashboard/tools/password-analyzer", icon: Key },
-    { name: "Password Generator", path: "/dashboard/tools/password-generator", icon: Lock },
-    { name: "Data Breach Scanner", path: "/dashboard/tools/data-breach-scanner", icon: Search },
-    { name: "Dark Web Monitor", path: "/dashboard/tools/dark-web-monitor", icon: Eye },
-    { name: "Phishing Detector", path: "/dashboard/tools/phishing-detector", icon: Globe },
-    { name: "Network Scanner", path: "/dashboard/tools/network-scanner", icon: Wifi },
-    { name: "Device Security Scanner", path: "/dashboard/tools/device-security-scanner", icon: Scan },
-    { name: "Encryption Tool", path: "/dashboard/tools/encryption-tool", icon: FileText },
-    { name: "File Integrity Checker", path: "/dashboard/tools/file-integrity-checker", icon: Fingerprint },
-    { name: "Vulnerability Assessment", path: "/dashboard/tools/vulnerability-assessment", icon: AlertTriangle },
-    { name: "Security Training", path: "/dashboard/tools/security-training", icon: GraduationCap },
-    { name: "Compliance Checker", path: "/dashboard/tools/compliance-checker", icon: FileCheck },
-    { name: "Security News", path: "/dashboard/tools/security-news", icon: Newspaper },
-    { name: "Two-Factor Manager", path: "/dashboard/tools/two-factor-manager", icon: Smartphone },
-    { name: "Secure Notes", path: "/dashboard/tools/secure-notes", icon: FileIcon },
-    { name: "VPN Manager", path: "/dashboard/tools/vpn-manager", icon: ShieldCheck },
-    { name: "Firewall Tool", path: "/dashboard/tools/firewall-tool", icon: ShieldAlert },
-    { name: "Malware Scanner", path: "/dashboard/tools/malware-scanner", icon: Scan },
-    { name: "Security Audit", path: "/dashboard/tools/security-audit", icon: ClipboardCheck },
-  ]
-
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     )
   }
 
   if (!user) {
-    // Redirect to login (would use React Router in a real app)
-    window.location.href = "/login"
+    navigate("/login")
     return null
   }
 
   return (
-    <ProtectedRoute>
-      <SidebarProvider>
-        <div className="flex min-h-screen">
-          <MainSidebar />
-          <div className="flex flex-col flex-1 h-full w-full">
-            <Header />
-            <main className="flex-1 p-6 h-full w-full">
-              <Outlet />
-            </main>
-          </div>
-        </div>
-      </SidebarProvider>
-    </ProtectedRoute>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <MainSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+            <div className="flex items-center gap-2 px-4">
+              <h1 className="text-lg font-semibold">
+                {location.pathname === "/dashboard" 
+                  ? "Dashboard" 
+                  : location.pathname.split("/").pop()?.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase()) || "Dashboard"
+                }
+              </h1>
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <ModeToggle />
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">
+                  {user?.name || user?.email}
+                </span>
+                <Button variant="ghost" size="icon" onClick={() => navigate("/profile")}>
+                  <User className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="icon" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </header>
+          
+          {/* Main Content */}
+          <main className="flex-1 p-6">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   )
 }

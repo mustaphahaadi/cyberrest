@@ -1,10 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCircle2, XCircle, AlertCircle, Info } from "lucide-react"
+import { CheckCircle2, XCircle, AlertCircle, Info, Eye, EyeOff } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Progress } from "@/components/ui/progress"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function PasswordAnalyzer() {
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [analyzed, setAnalyzed] = useState(false)
 
   // Mock password analysis function
@@ -92,53 +98,71 @@ export default function PasswordAnalyzer() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      <div className="bg-white rounded-lg shadow">
-        <div className="p-4 border-b">
-          <div className="font-medium">Password Strength Analyzer</div>
-          <div className="text-sm text-gray-500">Check how strong your password is against common attacks</div>
-        </div>
-        <div className="p-4 space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Password Strength Analyzer</CardTitle>
+          <CardDescription>Check how strong your password is against common attacks</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <div className="space-y-2">
-            <input
-              type="password"
-              className="w-full px-3 py-2 border rounded"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value)
-                setAnalyzed(false)
-              }}
-            />
-            <p className="text-xs text-gray-500">Your password is never stored or transmitted</p>
+            <label htmlFor="password" className="text-sm font-medium">
+              Password
+            </label>
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  setAnalyzed(false)
+                }}
+                className="pr-10"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-0 h-full px-3"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">Your password is never stored or transmitted</p>
           </div>
 
-          <button
+          <Button
             onClick={handleAnalyze}
             disabled={!password}
-            className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
+            className="w-full"
           >
             Analyze Password
-          </button>
-        </div>
-        <div className="p-4 border-t">
-          <div className="bg-blue-50 p-3 rounded flex items-start">
-            <Info className="h-4 w-4 mt-0.5 mr-2 text-blue-500" />
-            <div className="text-sm text-blue-800">
+          </Button>
+
+          <Alert>
+            <Info className="h-4 w-4" />
+            <AlertDescription>
               A strong password should be at least 12 characters long and include uppercase letters, lowercase letters,
               numbers, and special characters.
-            </div>
-          </div>
-        </div>
-      </div>
+            </AlertDescription>
+          </Alert>
+        </CardContent>
+      </Card>
 
-      <div className="bg-white rounded-lg shadow">
-        <div className="p-4 border-b">
-          <div className="font-medium">Analysis Results</div>
-          <div className="text-sm text-gray-500">
+      <Card>
+        <CardHeader>
+          <CardTitle>Analysis Results</CardTitle>
+          <CardDescription>
             {analyzed ? "Detailed breakdown of your password strength" : "Enter a password and click Analyze"}
-          </div>
-        </div>
-        <div className="p-4 space-y-6">
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
           {analyzed && password && (
             <>
               <div className="text-center">
@@ -146,9 +170,7 @@ export default function PasswordAnalyzer() {
                   <span className={getScoreColor(score)}>{score}/100</span>
                 </div>
                 <div className={`text-lg font-medium ${getScoreColor(score)}`}>{getScoreText(score)}</div>
-                <div className="h-2 bg-gray-200 rounded-full mt-2">
-                  <div className={`h-2 ${getProgressColor(score)} rounded-full`} style={{ width: `${score}%` }}></div>
-                </div>
+                <Progress value={score} className="mt-2 h-2" />
               </div>
 
               <div className="space-y-3">
@@ -158,31 +180,31 @@ export default function PasswordAnalyzer() {
                     {item.type === "success" && <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5" />}
                     {item.type === "error" && <XCircle className="h-5 w-5 text-red-500 mt-0.5" />}
                     {item.type === "warning" && <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5" />}
-                    <span>{item.message}</span>
+                    <span className="text-sm">{item.message}</span>
                   </div>
                 ))}
               </div>
 
               {score < 70 && (
-                <div className="bg-blue-50 p-3 rounded flex items-start">
-                  <Info className="h-4 w-4 mt-0.5 mr-2 text-blue-500" />
-                  <div className="text-sm text-blue-800">
+                <Alert>
+                  <Info className="h-4 w-4" />
+                  <AlertDescription>
                     Try our Password Generator tool to create a stronger password.
-                  </div>
-                </div>
+                  </AlertDescription>
+                </Alert>
               )}
             </>
           )}
 
           {(!analyzed || !password) && (
-            <div className="flex flex-col items-center justify-center h-40 text-center text-gray-500">
-              <AlertCircle className="h-10 w-10 mb-2" />
+            <div className="flex flex-col items-center justify-center h-40 text-center text-muted-foreground">
+              <AlertCircle className="h-10 w-10 mb-2 opacity-50" />
               <p>No password analyzed yet</p>
               <p className="text-sm">Enter a password and click Analyze to see results</p>
             </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
