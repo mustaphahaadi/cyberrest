@@ -1,9 +1,13 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Shield, Menu, X } from "lucide-react"
+import { Link, useLocation } from "react-router-dom"
+import { Shield, Menu, X, User, LogOut } from "lucide-react"
+import { useAuth } from "../contexts/AuthContext"
+import { Button } from "./ui/button"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, logout } = useAuth()
+  const location = useLocation()
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-800">
@@ -30,15 +34,31 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Link to="/login" className="text-slate-300 hover:text-white">
-                Log in
-              </Link>
-              <Link
-                to="/signup"
-                className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600"
-              >
-                Get Started
-              </Link>
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <Link to="/dashboard" className="text-slate-300 hover:text-white">
+                    Dashboard
+                  </Link>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-slate-300">{user.name}</span>
+                    <Button variant="ghost" size="sm" onClick={logout}>
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <Link to="/login" className="text-slate-300 hover:text-white">
+                    Log in
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -75,18 +95,37 @@ const Navbar = () => {
               </Link>
               <div className="pt-4 pb-3 border-t border-slate-800">
                 <div className="flex items-center px-5 space-x-4">
-                  <Link
-                    to="/login"
-                    className="block w-full px-3 py-2 text-center text-white hover:bg-slate-800 rounded-md"
-                  >
-                    Log in
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="block w-full px-3 py-2 text-center bg-cyan-500 text-white hover:bg-cyan-600 rounded-md"
-                  >
-                    Get Started
-                  </Link>
+                  {user ? (
+                    <>
+                      <Link
+                        to="/dashboard"
+                        className="block w-full px-3 py-2 text-center text-white hover:bg-slate-800 rounded-md"
+                      >
+                        Dashboard
+                      </Link>
+                      <Button
+                        onClick={logout}
+                        className="w-full bg-red-500 hover:bg-red-600"
+                      >
+                        Sign Out
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className="block w-full px-3 py-2 text-center text-white hover:bg-slate-800 rounded-md"
+                      >
+                        Log in
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className="block w-full px-3 py-2 text-center bg-cyan-500 text-white hover:bg-cyan-600 rounded-md"
+                      >
+                        Get Started
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

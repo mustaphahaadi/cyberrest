@@ -1,145 +1,157 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import { Shield, Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../contexts/AuthContext"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card"
+import { Button } from "../components/ui/button"
+import { Input } from "../components/ui/input"
+import { Label } from "../components/ui/label"
+import { Alert, AlertDescription } from "../components/ui/alert"
+import { Shield, Eye, EyeOff, Mail, Lock } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
+    setError("")
 
     try {
-      await login(formData.email, formData.password);
-      navigate("/dashboard");
+      await login(email, password)
+      navigate("/dashboard")
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
+  const demoLogin = () => {
+    setEmail("demo@example.com")
+    setPassword("password")
+  }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 to-slate-900 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        {/* Logo */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2">
-            <Shield className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">CyberRest</span>
+          <Link to="/" className="inline-flex items-center gap-2 mb-4">
+            <Shield className="h-8 w-8 text-cyan-500" />
+            <span className="text-2xl font-bold text-white">CyberRest</span>
           </Link>
+          <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
+          <p className="text-slate-400">Sign in to your account to continue</p>
         </div>
 
-        {/* Login Form */}
-        <div className="bg-card rounded-lg border border-border p-8">
-          <h1 className="text-2xl font-bold text-center mb-6">Welcome back</h1>
-          
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
-              {error}
-            </div>
-          )}
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-            </div>
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Sign In</CardTitle>
+            <CardDescription className="text-slate-400">
+              Enter your credentials to access your dashboard
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <Alert className="border-red-500/50 bg-red-500/10">
+                  <AlertDescription className="text-red-400">{error}</AlertDescription>
+                </Alert>
+              )}
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-10 pr-12 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Enter your password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="pl-10 bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400"
+                    required
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-                />
-                <label htmlFor="remember" className="ml-2 text-sm">
-                  Remember me
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-white">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="pl-10 pr-10 bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-slate-400 hover:text-white"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="flex items-center space-x-2 text-sm">
+                  <input type="checkbox" className="rounded border-slate-600" />
+                  <span className="text-slate-300">Remember me</span>
                 </label>
+                <Link to="/forgot-password" className="text-sm text-cyan-400 hover:text-cyan-300">
+                  Forgot password?
+                </Link>
               </div>
-              <Link
-                to="/forgot-password"
-                className="text-sm text-primary hover:text-primary/80"
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white"
               >
-                Forgot password?
-              </Link>
+                {loading ? "Signing in..." : "Sign In"}
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={demoLogin}
+                className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                Try Demo Account
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-slate-400">
+                Don't have an account?{" "}
+                <Link to="/signup" className="text-cyan-400 hover:text-cyan-300 font-medium">
+                  Sign up
+                </Link>
+              </p>
             </div>
+          </CardContent>
+        </Card>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? "Signing in..." : "Sign in"}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center text-sm">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-primary hover:text-primary/80">
-              Sign up
-            </Link>
-          </div>
+        <div className="mt-6 text-center text-xs text-slate-500">
+          <p>Demo credentials: demo@example.com / password</p>
         </div>
       </motion.div>
     </div>
-  );
-} 
+  )
+}

@@ -12,13 +12,24 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [subscription, setSubscription] = useState({
+    plan: "free",
+    status: "active",
+    startDate: new Date().toISOString(),
+    billingCycle: "monthly",
+    price: 0
+  })
   const navigate = useNavigate()
 
   // Check if user is logged in on initial load
   useEffect(() => {
     const storedUser = localStorage.getItem("user")
+    const storedSubscription = localStorage.getItem("subscription")
     if (storedUser) {
       setUser(JSON.parse(storedUser))
+    }
+    if (storedSubscription) {
+      setSubscription(JSON.parse(storedSubscription))
     }
     setLoading(false)
   }, [])
@@ -68,15 +79,23 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setUser(null)
     localStorage.removeItem("user")
+    localStorage.removeItem("subscription")
     navigate("/login")
+  }
+
+  const updateSubscription = (newSubscription) => {
+    setSubscription(newSubscription)
+    localStorage.setItem("subscription", JSON.stringify(newSubscription))
   }
 
   const value = {
     user,
     loading,
+    subscription,
     login,
     register,
     logout,
+    updateSubscription,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
