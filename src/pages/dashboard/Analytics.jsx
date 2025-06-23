@@ -1,9 +1,5 @@
 "use client";
 
-import { AvatarFallback } from "@/components/ui/avatar";
-
-import { Avatar } from "@/components/ui/avatar";
-
 import { useState } from "react";
 import {
   Card,
@@ -12,17 +8,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Badge from "@/components/ui/badge";
+} from "../../components/ui/Card";
+import { Button } from "../../components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
+import { Badge } from "../../components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../components/ui/select";
 import {
   BarChart,
   LineChart,

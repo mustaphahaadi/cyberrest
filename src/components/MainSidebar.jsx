@@ -19,6 +19,11 @@ import {
   Settings,
   User,
   Home,
+  BarChart3,
+  Activity,
+  Users,
+  CreditCard,
+  HelpCircle
 } from "lucide-react"
 import {
   Sidebar,
@@ -31,7 +36,7 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarSeparator,
-} from "@/components/ui/sidebar"
+} from "../components/ui/sidebar"
 
 function MainSidebar() {
   const location = useLocation()
@@ -48,6 +53,36 @@ function MainSidebar() {
           name: "Dashboard",
           path: "/dashboard",
           icon: <Home className="h-5 w-5" />,
+        },
+        {
+          name: "Analytics",
+          path: "/dashboard/analytics",
+          icon: <BarChart3 className="h-5 w-5" />,
+        },
+        {
+          name: "Usage",
+          path: "/dashboard/usage",
+          icon: <Activity className="h-5 w-5" />,
+        },
+        {
+          name: "Team",
+          path: "/dashboard/team",
+          icon: <Users className="h-5 w-5" />,
+        },
+        {
+          name: "Settings",
+          path: "/dashboard/settings",
+          icon: <Settings className="h-5 w-5" />,
+        },
+        {
+          name: "Subscription",
+          path: "/dashboard/subscription",
+          icon: <CreditCard className="h-5 w-5" />,
+        },
+        {
+          name: "Support",
+          path: "/dashboard/support",
+          icon: <HelpCircle className="h-5 w-5" />,
         },
         {
           name: "Profile",

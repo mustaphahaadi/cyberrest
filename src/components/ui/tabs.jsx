@@ -11,17 +11,17 @@ export function Tabs({ defaultValue, children, className = "" }) {
     }
     return child
   })
-  return <div className={className}>{childrenWithProps}</div>
+  return <div className={`space-y-4 ${className}`}>{childrenWithProps}</div>
 }
 
 export function TabsList({ children, className = "", ...props }) {
-  return <div className={`flex border-b ${className}`} {...props}>{children}</div>
+  return <div className={`flex border-b overflow-x-auto ${className}`} {...props}>{children}</div>
 }
 
 export function TabsTrigger({ value, active, setActive, children, className = "", ...props }) {
   return (
     <button
-      className={`px-4 py-2 -mb-px border-b-2 ${active === value ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500"} focus:outline-none ${className}`}
+      className={`px-4 py-2 -mb-px border-b-2 whitespace-nowrap ${active === value ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500"} focus:outline-none hover:text-blue-500 transition-colors ${className}`}
       onClick={() => setActive(value)}
       type="button"
       {...props}

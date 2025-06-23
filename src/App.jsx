@@ -3,6 +3,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useAuth } from "./contexts/AuthContext";
 import DashboardLayout from "./layouts/DashboardLayout";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Public pages
 import HomePage from "./pages/HomePage";
@@ -33,6 +34,12 @@ import Changelog from "./pages/Changelog";
 // Dashboard pages
 import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/ProfilePage";
+import Analytics from "./pages/dashboard/Analytics";
+import Settings from "./pages/dashboard/Settings";
+import Subscription from "./pages/dashboard/Subscription";
+import Support from "./pages/dashboard/Support";
+import TeamManagement from "./pages/dashboard/TeamManagement";
+import Usage from "./pages/dashboard/Usage";
 
 // Tool imports
 import ToolsPage from "./pages/tools/ToolsPage";
@@ -51,6 +58,11 @@ import VpnManager from "./pages/tools/VpnManager";
 import FirewallTool from "./pages/tools/FirewallTool";
 import MalwareScanner from "./pages/tools/MalwareScanner";
 import SecurityAudit from "./pages/tools/SecurityAudit";
+import ComplianceChecker from "./pages/tools/ComplianceChecker";
+import DarkWebMonitor from "./pages/tools/DarkWebMonitor";
+import DeviceSecurityScanner from "./pages/tools/DeviceSecurityScanner";
+import ApiIntegrations from "./pages/tools/ApiIntegrations";
+import SecurityTraining from "./pages/tools/SecurityTraining";
 
 // Protected Route component
 function ProtectedRoute({ children }) {
@@ -84,10 +96,11 @@ function DashboardWrapper({ children }) {
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <Routes>
+    <ErrorBoundary>
+      <Router>
+        <AuthProvider>
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <Routes>
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<Products />} />
@@ -116,6 +129,12 @@ function App() {
             {/* Protected Dashboard Routes */}
             <Route path="/dashboard" element={<DashboardWrapper><Dashboard /></DashboardWrapper>} />
             <Route path="/profile" element={<DashboardWrapper><ProfilePage /></DashboardWrapper>} />
+            <Route path="/dashboard/analytics" element={<DashboardWrapper><Analytics /></DashboardWrapper>} />
+            <Route path="/dashboard/settings" element={<DashboardWrapper><Settings /></DashboardWrapper>} />
+            <Route path="/dashboard/subscription" element={<DashboardWrapper><Subscription /></DashboardWrapper>} />
+            <Route path="/dashboard/support" element={<DashboardWrapper><Support /></DashboardWrapper>} />
+            <Route path="/dashboard/team" element={<DashboardWrapper><TeamManagement /></DashboardWrapper>} />
+            <Route path="/dashboard/usage" element={<DashboardWrapper><Usage /></DashboardWrapper>} />
             <Route path="/dashboard/tools" element={<DashboardWrapper><ToolsPage /></DashboardWrapper>} />
             
             {/* Tool Routes */}
@@ -134,6 +153,11 @@ function App() {
             <Route path="/dashboard/tools/firewall-tool" element={<DashboardWrapper><FirewallTool /></DashboardWrapper>} />
             <Route path="/dashboard/tools/malware-scanner" element={<DashboardWrapper><MalwareScanner /></DashboardWrapper>} />
             <Route path="/dashboard/tools/security-audit" element={<DashboardWrapper><SecurityAudit /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/compliance-checker" element={<DashboardWrapper><ComplianceChecker /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/dark-web-monitor" element={<DashboardWrapper><DarkWebMonitor /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/device-security-scanner" element={<DashboardWrapper><DeviceSecurityScanner /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/api-integrations" element={<DashboardWrapper><ApiIntegrations /></DashboardWrapper>} />
+            <Route path="/dashboard/tools/security-training" element={<DashboardWrapper><SecurityTraining /></DashboardWrapper>} />
             
             {/* Catch all route */}
             <Route path="*" element={<NotFound />} />
@@ -141,6 +165,7 @@ function App() {
         </ThemeProvider>
       </AuthProvider>
     </Router>
+    </ErrorBoundary>
   );
 }
 

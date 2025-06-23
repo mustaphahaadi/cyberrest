@@ -1,14 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { useAuth } from "@/contexts/AuthContext"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import Badge from "@/components/ui/badge"
+import { useAuth } from "../../contexts/AuthContext"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/Card"
+import { Button } from "../../components/ui/button"
+import { Switch } from "../../components/ui/switch"
+import { Label } from "../../components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs"
+import { Alert, AlertDescription } from "../../components/ui/alert"
+import { Badge } from "../../components/ui/badge"
 import {
   Dialog,
   DialogContent,
@@ -16,8 +16,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+} from "../../components/ui/dialog"
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group"
 import { CheckCircle, CreditCard, Info } from "lucide-react"
 
 export default function Subscription() {

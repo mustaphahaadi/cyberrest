@@ -1,549 +1,340 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import Badge from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import {
-  CalendarIcon,
+import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card"
+import { Button } from "../../components/ui/button"
+import { Badge } from "../../components/ui/badge"
+import { Progress } from "../../components/ui/progress"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs"
+import { motion } from "framer-motion"
+import { 
+  BarChart3, 
+  TrendingUp, 
+  Calendar, 
   Download,
-  BarChart,
   Activity,
+  Zap,
   Clock,
-  AlertTriangle,
   Database,
-} from "lucide-react";
-import { Input } from "@/components/ui/input";
+  Cpu,
+  HardDrive
+} from "lucide-react"
 
 export default function Usage() {
-  const { user, subscription } = useAuth();
-  const [timeRange, setTimeRange] = useState("7d");
-  const [date, setDate] = useState(new Date());
-  const [usageData, setUsageData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [timeRange, setTimeRange] = useState("30d")
 
-  // Simulate fetching usage data
-  useEffect(() => {
-    setLoading(true);
+  const usageStats = {
+    current: {
+      scans: 156,
+      apiCalls: 2340,
+      storage: 2.4, // GB
+      bandwidth: 15.6 // GB
+    },
+    limits: {
+      scans: 500,
+      apiCalls: 10000,
+      storage: 10, // GB
+      bandwidth: 100 // GB
+    },
+    period: "This month"
+  }
 
-    // Mock data generation based on time range
-    setTimeout(() => {
-      const generateMockData = () => {
-        const days = timeRange === "7d" ? 7 : timeRange === "30d" ? 30 : 90;
+  const toolUsage = [
+    { name: "Password Analyzer", usage: 45, limit: 100, unit: "scans" },
+    { name: "Data Breach Scanner", usage: 32, limit: 50, unit: "scans" },
+    { name: "Network Scanner", usage: 28, limit: 75, unit: "scans" },
+    { name: "Phishing Detector", usage: 21, limit: 40, unit: "scans" },
+    { name: "Vulnerability Assessment", usage: 18, limit: 25, unit: "scans" },
+    { name: "Malware Scanner", usage: 12, limit: 30, unit: "scans" }
+  ]
 
-        // Generate daily usage data
-        const dailyData = Array.from({ length: days }, (_, i) => {
-          const date = new Date();
-          date.setDate(date.getDate() - (days - i - 1));
+  const dailyUsage = [
+    { date: "Jan 1", scans: 12, apiCalls: 145 },
+    { date: "Jan 2", scans: 8, apiCalls: 98 },
+    { date: "Jan 3", scans: 15, apiCalls: 203 },
+    { date: "Jan 4", scans: 22, apiCalls: 287 },
+    { date: "Jan 5", scans: 18, apiCalls: 234 },
+    { date: "Jan 6", scans: 25, apiCalls: 312 },
+    { date: "Jan 7", scans: 19, apiCalls: 256 }
+  ]
 
-          return {
-            date: format(date, "yyyy-MM-dd"),
-            scans: Math.floor(Math.random() * 10) + 1,
-            threats: Math.floor(Math.random() * 3),
-            dataProcessed: Math.floor(Math.random() * 500) + 100, // in MB
-          };
-        });
+  const getUsagePercentage = (current, limit) => {
+    return Math.round((current / limit) * 100)
+  }
 
-        // Generate tool usage data
-        const toolUsage = [
-          {
-            name: "Password Analyzer",
-            count: Math.floor(Math.random() * 50) + 10,
-          },
-          {
-            name: "Password Generator",
-            count: Math.floor(Math.random() * 40) + 5,
-          },
-          {
-            name: "Data Breach Scanner",
-            count: Math.floor(Math.random() * 30) + 5,
-          },
-          {
-            name: "Phishing Detector",
-            count: Math.floor(Math.random() * 20) + 2,
-          },
-          {
-            name: "Network Scanner",
-            count: Math.floor(Math.random() * 15) + 1,
-          },
-          {
-            name: "Encryption Tool",
-            count: Math.floor(Math.random() * 25) + 3,
-          },
-        ];
+  const getUsageColor = (percentage) => {
+    if (percentage >= 90) return "text-red-500"
+    if (percentage >= 75) return "text-yellow-500"
+    return "text-green-500"
+  }
 
-        // Calculate totals
-        const totalScans = dailyData.reduce((sum, day) => sum + day.scans, 0);
-        const totalThreats = dailyData.reduce(
-          (sum, day) => sum + day.threats,
-          0
-        );
-        const totalDataProcessed = dailyData.reduce(
-          (sum, day) => sum + day.dataProcessed,
-          0
-        );
-
-        return {
-          dailyData,
-          toolUsage,
-          totals: {
-            scans: totalScans,
-            threats: totalThreats,
-            dataProcessed: totalDataProcessed,
-          },
-          limits: {
-            scans:
-              subscription?.plan === "free"
-                ? 50
-                : subscription?.plan === "premium"
-                ? 500
-                : 5000,
-            dataProcessed:
-              subscription?.plan === "free"
-                ? 1000
-                : subscription?.plan === "premium"
-                ? 10000
-                : 100000, // in MB
-          },
-        };
-      };
-
-      setUsageData(generateMockData());
-      setLoading(false);
-    }, 1000);
-  }, [timeRange, subscription]);
-
-  const formatDataSize = (sizeInMB) => {
-    if (sizeInMB < 1000) {
-      return `${sizeInMB} MB`;
-    } else {
-      return `${(sizeInMB / 1000).toFixed(2)} GB`;
-    }
-  };
+  const getProgressColor = (percentage) => {
+    if (percentage >= 90) return "bg-red-500"
+    if (percentage >= 75) return "bg-yellow-500"
+    return "bg-green-500"
+  }
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Usage Analytics</h2>
-          <p className="text-muted-foreground">
-            Monitor your security tool usage and activity.
-          </p>
+          <p className="text-muted-foreground">Monitor your resource usage and limits</p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select time range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="7d">Last 7 days</SelectItem>
-              <SelectItem value="30d">Last 30 days</SelectItem>
-              <SelectItem value="90d">Last 90 days</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-[240px] justify-start text-left font-normal"
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {format(date, "PPP")}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={(date) => date && setDate(date)}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-
-          <Button variant="outline" size="icon">
-            <Download className="h-4 w-4" />
+        <div className="flex items-center gap-2">
+          <select
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+            className="px-3 py-2 border rounded-md"
+          >
+            <option value="7d">Last 7 days</option>
+            <option value="30d">Last 30 days</option>
+            <option value="90d">Last 90 days</option>
+          </select>
+          <Button variant="outline">
+            <Download className="h-4 w-4 mr-2" />
+            Export
           </Button>
         </div>
       </div>
 
-      {loading ? (
-        <div className="grid gap-4 md:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <Card key={i} className="animate-pulse">
-              <CardHeader className="pb-2">
-                <div className="h-5 w-24 bg-muted rounded"></div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-8 w-16 bg-muted rounded mb-2"></div>
-                <div className="h-2 w-full bg-muted rounded"></div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-3">
+      {/* Overview Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Scans</CardTitle>
+              <CardTitle className="text-sm font-medium">Security Scans</CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {usageData?.totals.scans}
+              <div className="text-2xl font-bold">{usageStats.current.scans}</div>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-xs text-muted-foreground">
+                  of {usageStats.limits.scans} limit
+                </p>
+                <span className={`text-xs font-medium ${getUsageColor(getUsagePercentage(usageStats.current.scans, usageStats.limits.scans))}`}>
+                  {getUsagePercentage(usageStats.current.scans, usageStats.limits.scans)}%
+                </span>
               </div>
-              <div className="mt-2">
-                <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                  <span>Usage</span>
-                  <span>
-                    {usageData?.totals.scans}/{usageData?.limits.scans}
-                  </span>
-                </div>
-                <Progress
-                  value={
-                    (usageData?.totals.scans / usageData?.limits.scans) * 100
-                  }
-                />
-              </div>
+              <Progress 
+                value={getUsagePercentage(usageStats.current.scans, usageStats.limits.scans)} 
+                className="mt-2 h-2"
+              />
             </CardContent>
           </Card>
+        </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Threats Detected
-              </CardTitle>
-              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">API Calls</CardTitle>
+              <Zap className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {usageData?.totals.threats}
+              <div className="text-2xl font-bold">{usageStats.current.apiCalls.toLocaleString()}</div>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-xs text-muted-foreground">
+                  of {usageStats.limits.apiCalls.toLocaleString()} limit
+                </p>
+                <span className={`text-xs font-medium ${getUsageColor(getUsagePercentage(usageStats.current.apiCalls, usageStats.limits.apiCalls))}`}>
+                  {getUsagePercentage(usageStats.current.apiCalls, usageStats.limits.apiCalls)}%
+                </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                {usageData?.totals.threats === 0
-                  ? "No threats detected"
-                  : `${
-                      usageData?.totals.threats
-                    } threats detected in the last ${
-                      timeRange === "7d"
-                        ? "7 days"
-                        : timeRange === "30d"
-                        ? "30 days"
-                        : "90 days"
-                    }`}
-              </p>
+              <Progress 
+                value={getUsagePercentage(usageStats.current.apiCalls, usageStats.limits.apiCalls)} 
+                className="mt-2 h-2"
+              />
             </CardContent>
           </Card>
+        </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Data Processed
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Storage Used</CardTitle>
+              <HardDrive className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{usageStats.current.storage} GB</div>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-xs text-muted-foreground">
+                  of {usageStats.limits.storage} GB limit
+                </p>
+                <span className={`text-xs font-medium ${getUsageColor(getUsagePercentage(usageStats.current.storage, usageStats.limits.storage))}`}>
+                  {getUsagePercentage(usageStats.current.storage, usageStats.limits.storage)}%
+                </span>
+              </div>
+              <Progress 
+                value={getUsagePercentage(usageStats.current.storage, usageStats.limits.storage)} 
+                className="mt-2 h-2"
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Bandwidth</CardTitle>
               <Database className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {formatDataSize(usageData?.totals.dataProcessed)}
+              <div className="text-2xl font-bold">{usageStats.current.bandwidth} GB</div>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-xs text-muted-foreground">
+                  of {usageStats.limits.bandwidth} GB limit
+                </p>
+                <span className={`text-xs font-medium ${getUsageColor(getUsagePercentage(usageStats.current.bandwidth, usageStats.limits.bandwidth))}`}>
+                  {getUsagePercentage(usageStats.current.bandwidth, usageStats.limits.bandwidth)}%
+                </span>
               </div>
-              <div className="mt-2">
-                <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                  <span>Usage</span>
-                  <span>
-                    {formatDataSize(usageData?.totals.dataProcessed)}/
-                    {formatDataSize(usageData?.limits.dataProcessed)}
-                  </span>
-                </div>
-                <Progress
-                  value={
-                    (usageData?.totals.dataProcessed /
-                      usageData?.limits.dataProcessed) *
-                    100
-                  }
-                />
-              </div>
+              <Progress 
+                value={getUsagePercentage(usageStats.current.bandwidth, usageStats.limits.bandwidth)} 
+                className="mt-2 h-2"
+              />
             </CardContent>
           </Card>
-        </div>
-      )}
+        </motion.div>
+      </div>
 
-      <Tabs defaultValue="activity">
+      <Tabs defaultValue="tools" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="activity" className="flex items-center">
-            <Activity className="mr-2 h-4 w-4" />
-            Activity
-          </TabsTrigger>
-          <TabsTrigger value="tools" className="flex items-center">
-            <BarChart className="mr-2 h-4 w-4" />
-            Tool Usage
-          </TabsTrigger>
-          <TabsTrigger value="history" className="flex items-center">
-            <Clock className="mr-2 h-4 w-4" />
-            History
-          </TabsTrigger>
+          <TabsTrigger value="tools">Tool Usage</TabsTrigger>
+          <TabsTrigger value="timeline">Usage Timeline</TabsTrigger>
+          <TabsTrigger value="reports">Usage Reports</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="activity" className="space-y-4 pt-4">
+        <TabsContent value="tools" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Activity Over Time</CardTitle>
-              <CardDescription>
-                Security scans and threats detected over the selected time
-                period
-              </CardDescription>
+              <CardTitle>Security Tool Usage</CardTitle>
+              <CardDescription>Usage breakdown by security tool</CardDescription>
             </CardHeader>
-            <CardContent className="h-[300px] flex items-center justify-center">
-              {loading ? (
-                <div className="animate-pulse w-full h-full bg-muted rounded-md"></div>
-              ) : (
-                <div className="text-center text-muted-foreground">
-                  Activity chart would be displayed here
-                </div>
-              )}
+            <CardContent>
+              <div className="space-y-4">
+                {toolUsage.map((tool, index) => (
+                  <motion.div
+                    key={tool.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium">{tool.name}</h4>
+                        <span className="text-sm text-muted-foreground">
+                          {tool.usage} / {tool.limit} {tool.unit}
+                        </span>
+                      </div>
+                      <Progress 
+                        value={getUsagePercentage(tool.usage, tool.limit)} 
+                        className="h-2"
+                      />
+                      <div className="flex items-center justify-between mt-1">
+                        <span className={`text-xs font-medium ${getUsageColor(getUsagePercentage(tool.usage, tool.limit))}`}>
+                          {getUsagePercentage(tool.usage, tool.limit)}% used
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {tool.limit - tool.usage} remaining
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="tools" className="space-y-4 pt-4">
+        <TabsContent value="timeline" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Tool Usage Distribution</CardTitle>
-              <CardDescription>
-                Usage breakdown by security tool
-              </CardDescription>
+              <CardTitle>Usage Timeline</CardTitle>
+              <CardDescription>Daily usage over the selected period</CardDescription>
             </CardHeader>
             <CardContent>
-              {loading ? (
-                <div className="animate-pulse w-full h-[300px] bg-muted rounded-md"></div>
-              ) : (
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="h-[300px] flex items-center justify-center">
-                    <div className="text-center text-muted-foreground">
-                      Tool usage chart would be displayed here
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    {usageData?.toolUsage.map((tool) => (
-                      <div key={tool.name} className="space-y-1">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm font-medium">
-                            {tool.name}
-                          </span>
-                          <span className="text-sm">{tool.count} uses</span>
-                        </div>
-                        <Progress
-                          value={
-                            (tool.count /
-                              Math.max(
-                                ...usageData.toolUsage.map((t) => t.count)
-                              )) *
-                            100
-                          }
-                        />
-                      </div>
-                    ))}
-                  </div>
+              <div className="h-[300px] flex items-center justify-center">
+                <div className="text-center">
+                  <BarChart3 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium">Usage Chart</h3>
+                  <p className="text-muted-foreground">Interactive usage timeline would be displayed here</p>
                 </div>
-              )}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="history" className="space-y-4 pt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Usage History</CardTitle>
-              <CardDescription>
-                Detailed history of your security activities
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <div className="space-y-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className="animate-pulse flex items-center p-3 border rounded-md"
-                    >
-                      <div className="w-12 h-12 bg-muted rounded-full mr-4"></div>
-                      <div className="space-y-2 flex-1">
-                        <div className="h-4 bg-muted rounded w-1/3"></div>
-                        <div className="h-3 bg-muted rounded w-1/2"></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
+        <TabsContent value="reports" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Usage Summary</CardTitle>
+                <CardDescription>Current billing period overview</CardDescription>
+              </CardHeader>
+              <CardContent>
                 <div className="space-y-4">
-                  {usageData?.dailyData
-                    .slice(-5)
-                    .reverse()
-                    .map((day, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start p-4 border rounded-md"
-                      >
-                        <div className="mr-4 rounded-full bg-primary/10 p-2">
-                          <Activity className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                            <h4 className="font-medium">
-                              {format(new Date(day.date), "MMMM d, yyyy")}
-                            </h4>
-                            <div className="flex flex-wrap gap-2 mt-1 sm:mt-0">
-                              <Badge variant="outline">{day.scans} Scans</Badge>
-                              <Badge
-                                variant="outline"
-                                className={
-                                  day.threats > 0
-                                    ? "bg-red-100 text-red-800"
-                                    : ""
-                                }
-                              >
-                                {day.threats} Threats
-                              </Badge>
-                              <Badge variant="outline">
-                                {formatDataSize(day.dataProcessed)}
-                              </Badge>
-                            </div>
-                          </div>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {day.scans} security scans performed, processing{" "}
-                            {formatDataSize(day.dataProcessed)} of data
-                            {day.threats > 0
-                              ? `, detecting ${day.threats} security threats`
-                              : ""}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Period</span>
+                    <span className="font-medium">{usageStats.period}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Total Scans</span>
+                    <span className="font-medium">{usageStats.current.scans}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">API Calls</span>
+                    <span className="font-medium">{usageStats.current.apiCalls.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Storage</span>
+                    <span className="font-medium">{usageStats.current.storage} GB</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Bandwidth</span>
+                    <span className="font-medium">{usageStats.current.bandwidth} GB</span>
+                  </div>
                 </div>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full">
-                View Complete History
-              </Button>
-            </CardFooter>
-          </Card>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Export Options</CardTitle>
+                <CardDescription>Download detailed usage reports</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button variant="outline" className="w-full justify-start">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download CSV Report
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download PDF Summary
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Schedule Monthly Report
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Usage Limits</CardTitle>
-          <CardDescription>
-            Your current usage limits based on your{" "}
-            {subscription?.plan.charAt(0).toUpperCase() +
-              subscription?.plan.slice(1)}{" "}
-            plan
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Security Scans</span>
-                <span className="font-medium">
-                  {usageData?.totals.scans}/{usageData?.limits.scans} scans
-                </span>
-              </div>
-              <Progress
-                value={
-                  (usageData?.totals.scans / usageData?.limits.scans) * 100
-                }
-              />
-              <p className="text-xs text-muted-foreground">
-                {Math.max(0, usageData?.limits.scans - usageData?.totals.scans)}{" "}
-                scans remaining this month
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Data Processing</span>
-                <span className="font-medium">
-                  {formatDataSize(usageData?.totals.dataProcessed)}/
-                  {formatDataSize(usageData?.limits.dataProcessed)}
-                </span>
-              </div>
-              <Progress
-                value={
-                  (usageData?.totals.dataProcessed /
-                    usageData?.limits.dataProcessed) *
-                  100
-                }
-              />
-              <p className="text-xs text-muted-foreground">
-                {formatDataSize(
-                  Math.max(
-                    0,
-                    usageData?.limits.dataProcessed -
-                      usageData?.totals.dataProcessed
-                  )
-                )}{" "}
-                remaining this month
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Protected Devices</span>
-                <span className="font-medium">
-                  {subscription?.plan === "free"
-                    ? "1/1 device"
-                    : subscription?.plan === "premium"
-                    ? "3/5 devices"
-                    : "5/Unlimited devices"}
-                </span>
-              </div>
-              <Progress
-                value={
-                  subscription?.plan === "business"
-                    ? 50
-                    : subscription?.plan === "premium"
-                    ? (3 / 5) * 100
-                    : 100
-                }
-              />
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col sm:flex-row gap-2">
-          {subscription?.plan !== "business" && (
-            <Button className="w-full sm:w-auto">Upgrade Plan</Button>
-          )}
-          <Button variant="outline" className="w-full sm:w-auto">
-            View Usage Details
-          </Button>
-        </CardFooter>
-      </Card>
     </div>
-  );
+  )
 }

@@ -1,15 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
-import { useAuth } from "@/contexts/AuthContext"
-import MainSidebar from "@/components/MainSidebar"
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
-import { ModeToggle } from "@/components/ModeToggle"
-import { Button } from "@/components/ui/button"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useAuth } from "../contexts/AuthContext"
+import MainSidebar from "../components/MainSidebar"
+import { SidebarProvider, SidebarInset } from "../components/ui/sidebar"
+import { ModeToggle } from "../components/ModeToggle"
+import { Button } from "../components/ui/button"
 import { User, LogOut } from "lucide-react"
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ children }) {
   const { user, logout, loading } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
@@ -65,7 +65,7 @@ export default function DashboardLayout() {
           
           {/* Main Content */}
           <main className="flex-1 p-6">
-            <Outlet />
+            {children}
           </main>
         </SidebarInset>
       </div>

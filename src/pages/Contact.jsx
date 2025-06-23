@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
-import { Footer } from "../components/Footer";
+import Footer from "../components/Footer";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 
 const contactInfo = [
