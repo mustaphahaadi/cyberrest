@@ -151,45 +151,6 @@ npm run test:coverage
 npm run test:e2e
 ```
 
-## 🚀 Deployment
-
-### Environment Variables
-Create a `.env` file in the root directory:
-
-```env
-VITE_API_URL=https://api.cyberrest.com
-VITE_APP_ENV=production
-VITE_ANALYTICS_ID=your-analytics-id
-```
-
-### Build and Deploy
-```bash
-# Build for production
-npm run build
-
-# Deploy to your hosting platform
-# (Vercel, Netlify, AWS, etc.)
-```
-
-## 📊 Performance
-
-CyberRest is optimized for performance:
-
-- **Lighthouse Score**: 95+ across all metrics
-- **Bundle Size**: Optimized with code splitting
-- **Loading Speed**: Fast initial load and navigation
-- **SEO**: Comprehensive SEO optimization
-- **Accessibility**: WCAG 2.1 AA compliant
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
 
 ## 📄 License
 
@@ -197,63 +158,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- **Documentation**: [docs.cyberrest.com](https://docs.cyberrest.com)
-- **Support Email**: support@cyberrest.com
-- **Community**: [community.cyberrest.com](https://community.cyberrest.com)
-- **Status Page**: [status.cyberrest.com](https://status.cyberrest.com)
+-
 
-## 🗺️ Roadmap
-
-### Q1 2024
-- [ ] Advanced AI threat detection
-- [ ] Mobile applications
-- [ ] API v2 release
-- [ ] Enterprise SSO integration
-
-### Q2 2024
-- [ ] Machine learning security insights
-- [ ] Advanced compliance frameworks
-- [ ] Third-party integrations
-- [ ] White-label solutions
-
-## 📈 Analytics & Monitoring
-
-CyberRest includes comprehensive analytics:
-
-- **User Analytics**: Track user behavior and engagement
-- **Security Metrics**: Monitor security events and threats
-- **Performance Monitoring**: Real-time performance tracking
-- **Error Tracking**: Comprehensive error monitoring
-
-## 🌍 Internationalization
-
-CyberRest supports multiple languages:
-
-- English (default)
-- Spanish
-- French
-- German
-- Japanese
-- More languages coming soon
-
-## 🔧 Configuration
-
-### Theme Configuration
-Customize the theme in `src/lib/themes.js`:
-
-```javascript
-export const themes = {
-  light: { /* light theme config */ },
-  dark: { /* dark theme config */ },
-  custom: { /* your custom theme */ }
-}
-```
-
-### Component Configuration
-Configure components in `tailwind.config.js` and component files.
-
----
-
-**Built with ❤️ by the CyberRest Team**
-
-For more information, visit [cyberrest.com](https://cyberrest.com)
+**Built with ❤️ by the me**
