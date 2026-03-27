@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github } from "lucide-react"
+import { Shield, Mail, Phone, MapPin, LucideTwitter, LucideLinkedin, LucideGithub } from "lucide-react"
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -36,9 +36,9 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { name: "Twitter", href: "https://twitter.com/cyberrest", icon: Twitter },
-    { name: "LinkedIn", href: "https://linkedin.com/company/cyberrest", icon: Linkedin },
-    { name: "GitHub", href: "https://github.com/cyberrest", icon: Github }
+    { name: "Twitter", href: "https://twitter.com/cyberrest", icon: LucideTwitter },
+    { name: "LinkedIn", href: "https://linkedin.com/company/cyberrest", icon: LucideLinkedin },
+    { name: "GitHub", href: "https://github.com/cyberrest", icon: LucideGithub }
   ]
 
   return (

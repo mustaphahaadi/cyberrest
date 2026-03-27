@@ -16,7 +16,7 @@ import {
   Webhook,
   Key,
   BookOpen,
-  Github,
+  LucideGithub,
   Download,
   Copy,
   Check,
@@ -160,7 +160,7 @@ curl -X GET https://api.cyberrest.com/v1/scans/$SCAN_ID \\
             </Button>
             <Button asChild variant="outline">
               <a href="https://github.com/cyberrest" target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
+                <LucideGithub className="mr-2 h-4 w-4" />
                 GitHub
               </a>
             </Button>
@@ -383,7 +383,7 @@ curl -X GET https://api.cyberrest.com/v1/scans/$SCAN_ID \\
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <Github className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <LucideGithub className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <h4 className="font-medium">Security Dashboard Demo</h4>
                       <p className="text-sm text-muted-foreground">
@@ -398,7 +398,7 @@ curl -X GET https://api.cyberrest.com/v1/scans/$SCAN_ID \\
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Github className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <LucideGithub className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <h4 className="font-medium">CLI Security Scanner</h4>
                       <p className="text-sm text-muted-foreground">
@@ -413,7 +413,7 @@ curl -X GET https://api.cyberrest.com/v1/scans/$SCAN_ID \\
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Github className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <LucideGithub className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <h4 className="font-medium">Webhook Receiver</h4>
                       <p className="text-sm text-muted-foreground">
@@ -458,7 +458,7 @@ curl -X GET https://api.cyberrest.com/v1/scans/$SCAN_ID \\
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Github className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <LucideGithub className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <h4 className="font-medium">GitHub Discussions</h4>
                       <p className="text-sm text-muted-foreground">
